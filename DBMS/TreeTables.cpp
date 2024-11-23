@@ -3,11 +3,12 @@
 
 #include "pch.h"
 #include "DBMS.h"
+#include "DBMSDoc.h"
+#include "DBMSView.h"
 #include "TreeTables.h"
 
 
 // TreeTables
-
 IMPLEMENT_DYNCREATE(CTreeTables, CTreeView)
 
 CTreeTables::CTreeTables()
@@ -110,14 +111,9 @@ void CTreeTables::OnLButtonDown(UINT nFlags, CPoint point)
 	else
 		tree.SetCheck(m_hMain, false);
 
-	/*m_pDoc->m_bCoord = tree.GetCheck(m_hCoord);
-	m_pDoc->m_bSinus = tree.GetCheck(m_hSinus);
-	m_pDoc->m_bStreaks = tree.GetCheck(m_hStreaks);
-	m_pDoc->m_bStreaks45 = tree.GetCheck(m_hStreaks45);
-	m_pDoc->m_bBrush = tree.GetCheck(m_hBrush);
+	m_pDoc->m_bClients = tree.GetCheck(m_hClients);
+	m_pDoc->m_bOrders = tree.GetCheck(m_hOrders);
+	m_pDoc->m_bTours = tree.GetCheck(m_hTours);
 
-	m_pDoc->m_pView->Invalidate();*/
-
-
-	CTreeView::OnLButtonDown(nFlags, point);
+	m_pDoc->m_pView->UpdateWindow();
 }

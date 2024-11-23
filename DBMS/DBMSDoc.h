@@ -16,6 +16,8 @@ protected: // create from serialization only
 
 // Attributes
 public:
+	bool m_bClients, m_bOrders, m_bTours;
+
 	CTreeTables* m_pTree;
 	CDBMSView* m_pView;
 // Operations

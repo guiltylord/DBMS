@@ -47,8 +47,8 @@ BOOL CDBMSDoc::OnNewDocument()
 
 	m_pTree->m_pDoc = this;
 	m_pTree->FillTree();
-	// TODO: add reinitialization code here
-	// (SDI documents will reuse this document)
+	
+	m_bClients = m_bOrders = m_bTours = false;
 
 	return TRUE;
 }
