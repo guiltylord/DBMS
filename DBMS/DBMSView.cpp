@@ -61,11 +61,29 @@ void CDBMSView::OnDraw(CDC* /*pDC*/)
 
 void CDBMSView::OnInitialUpdate()
 {
-	CListView::OnInitialUpdate();
+    CListView::OnInitialUpdate();
+
+    CListCtrl& listCtrl = GetListCtrl();
+    listCtrl.ModifyStyle(0, LVS_REPORT);
 
 
-	// TODO: You may populate your ListView with items by directly accessing
-	//  its list control through a call to GetListCtrl().
+    // Insert columns
+    listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
+    listCtrl.InsertColumn(1, _T("Firstname"), LVCFMT_LEFT, 100);
+	listCtrl.InsertColumn(2, _T("Lastname"), LVCFMT_LEFT, 100);
+	listCtrl.InsertColumn(3, _T("Email"), LVCFMT_LEFT, 250);
+	listCtrl.InsertColumn(4, _T("PhoneNumber"), LVCFMT_LEFT, 150);
+	listCtrl.InsertColumn(5, _T("DateOfBirth"), LVCFMT_LEFT, 150);
+	listCtrl.InsertColumn(6, _T("PassportNumber"), LVCFMT_LEFT, 150);
+	                             
+    // Add sample data
+    listCtrl.InsertItem(0, _T("01"));
+    listCtrl.SetItemText(0, 1, _T("John"));
+    listCtrl.SetItemText(0, 2, _T("Doe"));
+    listCtrl.SetItemText(0, 3, _T("john.doe@example.com"));
+    listCtrl.SetItemText(0, 4, _T("123-456-7890"));
+    listCtrl.SetItemText(0, 5, _T("1980-01-01"));
+    listCtrl.SetItemText(0, 6, _T("A1234567"));
 }
 
 
