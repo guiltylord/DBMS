@@ -22,7 +22,7 @@ public:
 #endif
 	CDBMSDoc* m_pDoc;
 
-	HTREEITEM m_hMain, m_hCoord, m_hSinus, m_hStreaks, m_hStreaks45, m_hBrush;
+	HTREEITEM m_hMain, m_hClients, m_hOrders, m_hTours;
 
 	void FillTree();
 protected:

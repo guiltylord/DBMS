@@ -33,13 +33,11 @@ void CTreeTables::FillTree()
 	CTreeCtrl& tree = GetTreeCtrl();
 
 	tree.DeleteAllItems();
-	m_hMain = tree.InsertItem(L"Objects", -1, -1, NULL, TVI_FIRST);
+	m_hMain = tree.InsertItem(L"Tables", -1, -1, NULL, TVI_FIRST);
 
-	m_hCoord = tree.InsertItem(L"Coordinates", -1, -1, m_hMain, TVI_FIRST);
-	m_hSinus = tree.InsertItem(L"Sinus", -1, -1, m_hMain, TVI_ROOT);
-	m_hStreaks = tree.InsertItem(L"Streaks", -1, -1, m_hMain, TVI_ROOT);
-	m_hStreaks45 = tree.InsertItem(L"Streaks45", -1, -1, m_hMain, TVI_ROOT);
-	m_hBrush = tree.InsertItem(L"Brush", -1, -1, m_hMain, TVI_ROOT);
+	m_hClients = tree.InsertItem(L"Clients", -1, -1, m_hMain, TVI_FIRST);
+	m_hOrders = tree.InsertItem(L"Orders", -1, -1, m_hMain, TVI_ROOT);
+	m_hTours = tree.InsertItem(L"Tours", -1, -1, m_hMain, TVI_ROOT);
 
 	tree.Expand(m_hMain, TVE_EXPAND);
 
@@ -89,35 +87,25 @@ void CTreeTables::OnLButtonDown(UINT nFlags, CPoint point)
 	CTreeCtrl& tree = GetTreeCtrl();
 	CRect rc;
 
-	tree.GetItemRect(m_hCoord, &rc, false);
+	tree.GetItemRect(m_hClients, &rc, false);
 	if (rc.PtInRect(point))
-		tree.SelectItem(m_hCoord);
+		tree.SelectItem(m_hClients);
 
-	tree.GetItemRect(m_hSinus, &rc, false);
+	tree.GetItemRect(m_hOrders, &rc, false);
 	if (rc.PtInRect(point))
-		tree.SelectItem(m_hSinus);
+		tree.SelectItem(m_hOrders);
 
-	tree.GetItemRect(m_hStreaks, &rc, false);
+	tree.GetItemRect(m_hTours, &rc, false);
 	if (rc.PtInRect(point))
-		tree.SelectItem(m_hStreaks);
-
-	tree.GetItemRect(m_hStreaks45, &rc, false);
-	if (rc.PtInRect(point))
-		tree.SelectItem(m_hStreaks45);
-
-	tree.GetItemRect(m_hBrush, &rc, false);
-	if (rc.PtInRect(point))
-		tree.SelectItem(m_hBrush);
+		tree.SelectItem(m_hTours);
 
 	tree.GetItemRect(m_hMain, &rc, false);
 	if (rc.PtInRect(point))
 	{
 		bool check = tree.GetCheck(m_hMain);
-		tree.SetCheck(m_hCoord, check);
-		tree.SetCheck(m_hSinus, check);
-		tree.SetCheck(m_hStreaks, check);
-		tree.SetCheck(m_hStreaks45, check);
-		tree.SetCheck(m_hBrush, check);
+		tree.SetCheck(m_hClients, check);
+		tree.SetCheck(m_hOrders, check);
+		tree.SetCheck(m_hTours, check);
 	}
 	else
 		tree.SetCheck(m_hMain, false);
