@@ -48,9 +48,7 @@ BOOL CDBMSDoc::OnNewDocument()
 		return FALSE;
 
 	
-	m_bClients = false;
-	m_bOrders = false;
-	m_bTours = false;
+	m_bClients = m_bOrders = m_bTours = false;
 
 	m_pTree->m_pDoc = this;
 	m_pTree->FillTree();

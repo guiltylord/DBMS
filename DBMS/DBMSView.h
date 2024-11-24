@@ -44,9 +44,6 @@ protected:
 // Generated message map functions
 protected:
 	DECLARE_MESSAGE_MAP()
-public:
-//	afx_msg void OnUpdateUIState(UINT /*nAction*/, UINT /*nUIElement*/);
-	//virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 };
 
 #ifndef _DEBUG  // debug version in DBMSView.cpp

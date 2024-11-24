@@ -53,7 +53,6 @@ protected:
 
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 
-	void OnOpenMySql();
 private:
 	const char* HOST = "localhost";
 	const char* USER = "root";

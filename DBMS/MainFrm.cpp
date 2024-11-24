@@ -109,18 +109,12 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	m_wndSplitter.CreateView(0, 0, RUNTIME_CLASS(CTreeTables), CSize(400, 0), pContext);
 	m_wndSplitter.CreateView(0, 1, RUNTIME_CLASS(CDBMSView), CSize(0, 0), pContext);
 
-
-
 	SetActiveView((CListView*)m_wndSplitter.GetPane(0, 1));
 
 	CDBMSDoc* pDoc = (CDBMSDoc*)GetActiveDocument();
 
 	pDoc->m_pTree = (CTreeTables*)m_wndSplitter.GetPane(0, 0);
 	pDoc->m_pView = (CDBMSView*)m_wndSplitter.GetPane(0, 1);
-
-	//((CMyTreeView*)m_wndSplitter.GetPane(0, 0))->m_pDoc = pDoc;
-
-	//pDoc->m_pTree->m_pDoc = pDoc;
 	return TRUE;
 }
 

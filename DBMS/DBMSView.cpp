@@ -63,7 +63,6 @@ void CDBMSView::FillTable()
 	CListCtrl& listCtrl = GetListCtrl();
 	listCtrl.ModifyStyle(0, LVS_REPORT);
 
-	// Insert columns
 	if (pDoc->m_bClients)
 	{
 		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();

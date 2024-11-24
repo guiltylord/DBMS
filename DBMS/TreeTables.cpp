@@ -13,7 +13,6 @@ IMPLEMENT_DYNCREATE(CTreeTables, CTreeView)
 
 CTreeTables::CTreeTables()
 {
-
 }
 
 CTreeTables::~CTreeTables()
@@ -45,11 +44,11 @@ void CTreeTables::FillTree()
 }
 
 
-
 void CTreeTables::AssertValid() const
 {
 	CTreeView::AssertValid();
 }
+
 
 #ifndef _WIN32_WCE
 void CTreeTables::Dump(CDumpContext& dc) const
