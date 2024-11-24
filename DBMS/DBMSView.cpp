@@ -81,6 +81,8 @@ void CDBMSView::FillTable()
 		listCtrl.InsertColumn(5, _T("DateOfBirth"), LVCFMT_LEFT, 150);
 		listCtrl.InsertColumn(6, _T("PassportNumber"), LVCFMT_LEFT, 150);
 
+		countColumns = 7;
+
 		vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
 		data = pFrame->SelectAllFromTable("clients");
 
@@ -111,6 +113,8 @@ void CDBMSView::FillTable()
 		listCtrl.InsertColumn(4, _T("ClientId"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(5, _T("TourId"), LVCFMT_LEFT, 100);
 
+		countColumns = 6;
+
 		vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
 		data = pFrame->SelectAllFromTable("orders");
 
@@ -140,6 +144,8 @@ void CDBMSView::FillTable()
 		listCtrl.InsertColumn(3, _T("DateStart"), LVCFMT_LEFT, 150);
 		listCtrl.InsertColumn(4, _T("DateFinish"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(5, _T("Price"), LVCFMT_LEFT, 100);
+		
+		countColumns = 6;
 
 		vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
 		data = pFrame->SelectAllFromTable("tours");
@@ -158,42 +164,11 @@ void CDBMSView::FillTable()
 
 void CDBMSView::ClearView()
 {
-	CDBMSDoc* pDoc = GetDocument();
 	CListCtrl& listCtrl = GetListCtrl();
-	if (pDoc->m_bClients)
-	{
-		listCtrl.DeleteAllItems();
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-	}
 
-	if (pDoc->m_bOrders)
-	{
-		listCtrl.DeleteAllItems();
+	listCtrl.DeleteAllItems();
+	for (int i = 0; i < countColumns; i++)
 		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-	}
-
-	if (pDoc->m_bTours)
-	{
-		listCtrl.DeleteAllItems();
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);	
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-		listCtrl.DeleteColumn(0);
-	}
 }
 
 void CDBMSView::OnDraw(CDC* pDC)

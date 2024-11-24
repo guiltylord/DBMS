@@ -15,6 +15,7 @@ protected: // create from serialization only
 public:
 	CDBMSDoc* GetDocument() const;
 
+	int countColumns;
 // Operations
 public:
 	void FillTable();
