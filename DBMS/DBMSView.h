@@ -17,6 +17,8 @@ public:
 
 // Operations
 public:
+	void FillTable();
+	void ClearView();
 
 // Overrides
 public:

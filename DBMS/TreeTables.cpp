@@ -108,9 +108,23 @@ void CTreeTables::OnLButtonDown(UINT nFlags, CPoint point)
 	else
 		tree.SetCheck(m_hMain, false);
 
-	m_pDoc->m_bClients = tree.GetCheck(m_hClients);
-	m_pDoc->m_bOrders = tree.GetCheck(m_hOrders);
-	m_pDoc->m_bTours = tree.GetCheck(m_hTours);
+	if (m_pDoc->m_bClients = tree.GetCheck(m_hClients)) {
+		m_pDoc->m_pView->ClearView(); 
+		m_pDoc->m_pView->FillTable();
 
-	m_pDoc->m_pView->UpdateWindow();
+	}
+	if (m_pDoc->m_bOrders = tree.GetCheck(m_hOrders)) {
+		m_pDoc->m_pView->ClearView();
+		m_pDoc->m_pView->FillTable();
+
+	}
+	if (m_pDoc->m_bTours = tree.GetCheck(m_hTours)) {
+		m_pDoc->m_pView->ClearView();
+		m_pDoc->m_pView->FillTable();
+
+	}
+	
+
+
+
 }

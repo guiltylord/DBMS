@@ -48,7 +48,7 @@ BOOL CDBMSDoc::OnNewDocument()
 		return FALSE;
 
 	
-	m_bClients = true;
+	m_bClients = false;
 	m_bOrders = false;
 	m_bTours = false;
 
