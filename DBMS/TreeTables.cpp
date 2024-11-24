@@ -87,15 +87,30 @@ void CTreeTables::OnLButtonDown(UINT nFlags, CPoint point)
 
 	tree.GetItemRect(m_hClients, &rc, false);
 	if (rc.PtInRect(point))
+	{
 		tree.SelectItem(m_hClients);
+
+		tree.SetCheck(m_hOrders, false);
+		tree.SetCheck(m_hTours, false);
+	}
 
 	tree.GetItemRect(m_hOrders, &rc, false);
 	if (rc.PtInRect(point))
+	{
 		tree.SelectItem(m_hOrders);
+
+		tree.SetCheck(m_hClients, false);
+		tree.SetCheck(m_hTours, false);
+	}
 
 	tree.GetItemRect(m_hTours, &rc, false);
 	if (rc.PtInRect(point))
+	{
 		tree.SelectItem(m_hTours);
+
+		tree.SetCheck(m_hClients, false);
+		tree.SetCheck(m_hOrders, false);
+	}
 
 	tree.GetItemRect(m_hMain, &rc, false);
 	if (rc.PtInRect(point))
@@ -109,22 +124,24 @@ void CTreeTables::OnLButtonDown(UINT nFlags, CPoint point)
 		tree.SetCheck(m_hMain, false);
 
 	if (m_pDoc->m_bClients = tree.GetCheck(m_hClients)) {
-		m_pDoc->m_pView->ClearView(); 
-		m_pDoc->m_pView->FillTable();
+		m_pDoc->m_bOrders = tree.GetCheck(m_hOrders);
+		m_pDoc->m_bTours = tree.GetCheck(m_hTours);
 
+		m_pDoc->m_pView->ClearView();
+		m_pDoc->m_pView->FillTable();
 	}
 	if (m_pDoc->m_bOrders = tree.GetCheck(m_hOrders)) {
+		m_pDoc->m_bClients = tree.GetCheck(m_hClients);
+		m_pDoc->m_bTours = tree.GetCheck(m_hTours);
+
 		m_pDoc->m_pView->ClearView();
 		m_pDoc->m_pView->FillTable();
-
 	}
 	if (m_pDoc->m_bTours = tree.GetCheck(m_hTours)) {
+		m_pDoc->m_bClients = tree.GetCheck(m_hClients);
+		m_pDoc->m_bOrders = tree.GetCheck(m_hOrders);
+
 		m_pDoc->m_pView->ClearView();
 		m_pDoc->m_pView->FillTable();
-
 	}
-	
-
-
-
 }
