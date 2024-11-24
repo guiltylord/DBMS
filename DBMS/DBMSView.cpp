@@ -138,6 +138,66 @@ void CDBMSView::OnInitialUpdate()
 			}
 		}
 	}
+
+	if (pDoc->m_bOrders)
+	{
+		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+		if (!pFrame)
+			return;
+
+		if (!pFrame->OpenTrans())
+			return;
+
+		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
+		listCtrl.InsertColumn(1, _T("Date"), LVCFMT_LEFT, 100);
+		listCtrl.InsertColumn(2, _T("Peoples"), LVCFMT_LEFT, 100);
+		listCtrl.InsertColumn(3, _T("Total price"), LVCFMT_LEFT, 150);
+		listCtrl.InsertColumn(4, _T("ClientId"), LVCFMT_LEFT, 100);
+		listCtrl.InsertColumn(5, _T("TourId"), LVCFMT_LEFT, 100);
+
+		vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
+		data = pFrame->SelectAllFromTable("orders");
+
+		for (int rowNumb = 0; rowNumb < data->size(); rowNumb++) {
+			MYSQL_ROW row = (*data)[rowNumb];
+			CString cstrRow = CString(row[0]);
+			listCtrl.InsertItem(rowNumb, cstrRow);
+			for (int columnNumb = 1; columnNumb < mysql_num_fields(pFrame->res); columnNumb++) {
+				cstrRow = CString(row[columnNumb]);
+				listCtrl.SetItemText(rowNumb, columnNumb, cstrRow);
+			}
+		}
+	}
+
+	if (pDoc->m_bTours)
+	{
+		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+		if (!pFrame)
+			return;
+
+		if (!pFrame->OpenTrans())
+			return;
+
+		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
+		listCtrl.InsertColumn(1, _T("Title"), LVCFMT_LEFT, 200);
+		listCtrl.InsertColumn(2, _T("Location"), LVCFMT_LEFT, 100);
+		listCtrl.InsertColumn(3, _T("DateStart"), LVCFMT_LEFT, 150);
+		listCtrl.InsertColumn(4, _T("DateFinish"), LVCFMT_LEFT, 100);
+		listCtrl.InsertColumn(5, _T("Price"), LVCFMT_LEFT, 100);
+
+		vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
+		data = pFrame->SelectAllFromTable("tours");
+
+		for (int rowNumb = 0; rowNumb < data->size(); rowNumb++) {
+			MYSQL_ROW row = (*data)[rowNumb];
+			CString cstrRow = CString(row[0]);
+			listCtrl.InsertItem(rowNumb, cstrRow);
+			for (int columnNumb = 1; columnNumb < mysql_num_fields(pFrame->res); columnNumb++) {
+				cstrRow = CString(row[columnNumb]);
+				listCtrl.SetItemText(rowNumb, columnNumb, cstrRow);
+			}
+		}
+	}
 	CListView::OnInitialUpdate();
 }
 
