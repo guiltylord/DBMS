@@ -109,7 +109,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 
 
 
-	SetActiveView((CView*)m_wndSplitter.GetPane(0, 1));
+	SetActiveView((CListView*)m_wndSplitter.GetPane(0, 1));
 
 	CDBMSDoc* pDoc = (CDBMSDoc*)GetActiveDocument();
 

@@ -1,6 +1,6 @@
 #pragma once
 
-
+#define   WM_GOODBYE   (WM_USER + 5)
 // TreeTables view
 class CDBMSDoc;
 
