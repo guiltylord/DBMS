@@ -1,6 +1,13 @@
 
 // MainFrm.h : interface of the CMainFrame class
 //
+#include "mysql.h"
+
+#include <string>
+#include <vector>
+using namespace std;
+
+
 
 #pragma once
 
@@ -40,6 +47,21 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
+
+	void OnOpenMySql();
+	bool OpenTrans();
+	bool CloseTrans();
+	bool SendQuery(string query);
+	vector<MYSQL_ROW>* SelectAllFromTable (string table);
+
+	const char* HOST = "localhost";
+	const char* USER = "root";
+	const char* PASSWORD = "mysql";
+	const char* DATABASE = "mybase";
+
+	MYSQL* conn;
+	MYSQL_RES* res, * reslogon, * reslogoff;
+	MYSQL_ROW row;
 };
 
 

@@ -121,3 +121,58 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	//pDoc->m_pTree->m_pDoc = pDoc;
 	return TRUE;
 }
+
+bool CMainFrame::OpenTrans()
+{
+	// Получаем дескриптор соединения
+	conn = mysql_init(NULL);
+	if (conn == NULL) {
+		// Если дескриптор не получен – выводим сообщение об ошибке
+		fprintf(stderr, "Error: can'tcreate MySQL-descriptor\n");
+		return false;
+	}
+	// Подключаемся к серверу
+	if (!mysql_real_connect(conn, HOST, USER, PASSWORD, DATABASE, NULL, NULL, 0)) {
+		// Если нет возможности установить соединение с сервером
+		// базы данных выводим сообщение об ошибке
+		fprintf(stderr, "Error: can'tconnecttodatabase %s\n", mysql_error(conn));
+		return false;
+	}
+	return true;
+}
+
+bool CMainFrame::CloseTrans()
+{
+	try {
+		mysql_close(conn);
+	}
+	catch (...) {
+		return false;
+	}
+	return true;
+}
+
+bool CMainFrame::SendQuery(string query)
+{
+	if (mysql_query(conn, query.c_str()) == 0)
+		return true;
+	return false;
+}
+
+vector<MYSQL_ROW>* CMainFrame::SelectAllFromTable(string table)
+{
+	vector<MYSQL_ROW>* data;
+	int i = 0;
+	string sql = "SELECT * FROM " + table;
+
+	int result = mysql_query(conn, sql.c_str());
+
+	if (res = mysql_store_result(conn)) {
+		while (row = mysql_fetch_row(res)) {
+			data->push_back(row);
+		}
+		return data;
+	}
+	else
+		return nullptr;
+}
