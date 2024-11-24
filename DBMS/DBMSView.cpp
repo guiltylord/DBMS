@@ -28,9 +28,6 @@ BEGIN_MESSAGE_MAP(CDBMSView, CListView)
 	ON_COMMAND(ID_FILE_PRINT, &CListView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CListView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CListView::OnFilePrintPreview)
-	ON_WM_UPDATEUISTATE()
-	ON_WM_PAINT()
-	ON_MESSAGE(WM_GOODBYE, &CDBMSView::OnGoodbye)
 END_MESSAGE_MAP()
 
 // CDBMSView construction/destruction
@@ -173,31 +170,3 @@ CDBMSDoc* CDBMSView::GetDocument() const // non-debug version is inline
 }
 #endif //_DEBUG
 
-
-// CDBMSView message handlers
-
-
-void CDBMSView::OnUpdateUIState(UINT /*nAction*/, UINT /*nUIElement*/)
-{
-	// This feature requires Windows 2000 or greater.
-	// The symbols _WIN32_WINNT and WINVER must be >= 0x0500.
-	// TODO: Add your message handler code here
-}
-
-
-void CDBMSView::OnPaint()
-{
-	
-
-
-}
-
-LRESULT CDBMSView::OnGoodbye(WPARAM wParam, LPARAM lParam)
-{
-	return LRESULT();
-}
-
-void CDBMSView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
-{
-	// TODO: Add your specialized code here and/or call the base class
-}
