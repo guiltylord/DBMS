@@ -35,7 +35,6 @@ END_MESSAGE_MAP()
 CDBMSDoc::CDBMSDoc() noexcept
 {
 	// TODO: add one-time construction code here
-
 }
 
 CDBMSDoc::~CDBMSDoc()
