@@ -62,38 +62,38 @@ void CDBMSView::OnDraw(CDC* pDC)
 
 	CDBMSDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	CView::OnDraw(pDC);
+	//CView::OnDraw(pDC);
 
-	CPaintDC dc(this); // device context for painting
-	// TODO: Add your message handler code here
-	// Do not call CListView::OnPaint() for painting messages
-
-
-
-	CListCtrl& listCtrl = GetListCtrl();
-	listCtrl.ModifyStyle(0, LVS_REPORT);
+	//CPaintDC dc(this); // device context for painting
+	//// TODO: Add your message handler code here
+	//// Do not call CListView::OnPaint() for painting messages
 
 
-	// Insert columns
-	if (pDoc->m_bClients)
-	{
-		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
-		listCtrl.InsertColumn(1, _T("Firstname"), LVCFMT_LEFT, 100);
-		listCtrl.InsertColumn(2, _T("Lastname"), LVCFMT_LEFT, 100);
-		listCtrl.InsertColumn(3, _T("Email"), LVCFMT_LEFT, 250);
-		listCtrl.InsertColumn(4, _T("PhoneNumber"), LVCFMT_LEFT, 150);
-		listCtrl.InsertColumn(5, _T("DateOfBirth"), LVCFMT_LEFT, 150);
-		listCtrl.InsertColumn(6, _T("PassportNumber"), LVCFMT_LEFT, 150);
 
-		// Add sample data
-		listCtrl.InsertItem(0, _T("01"));
-		listCtrl.SetItemText(0, 1, _T("John"));
-		listCtrl.SetItemText(0, 2, _T("Doe"));
-		listCtrl.SetItemText(0, 3, _T("john.doe@example.com"));
-		listCtrl.SetItemText(0, 4, _T("123-456-7890"));
-		listCtrl.SetItemText(0, 5, _T("1980-01-01"));
-		listCtrl.SetItemText(0, 6, _T("A1234567"));
-	}
+	//CListCtrl& listCtrl = GetListCtrl();
+	//listCtrl.ModifyStyle(0, LVS_REPORT);
+
+
+	//// Insert columns
+	//if (pDoc->m_bClients)
+	//{
+	//	listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
+	//	listCtrl.InsertColumn(1, _T("Firstname"), LVCFMT_LEFT, 100);
+	//	listCtrl.InsertColumn(2, _T("Lastname"), LVCFMT_LEFT, 100);
+	//	listCtrl.InsertColumn(3, _T("Email"), LVCFMT_LEFT, 250);
+	//	listCtrl.InsertColumn(4, _T("PhoneNumber"), LVCFMT_LEFT, 150);
+	//	listCtrl.InsertColumn(5, _T("DateOfBirth"), LVCFMT_LEFT, 150);
+	//	listCtrl.InsertColumn(6, _T("PassportNumber"), LVCFMT_LEFT, 150);
+
+	//	// Add sample data
+	//	listCtrl.InsertItem(0, _T("01"));
+	//	listCtrl.SetItemText(0, 1, _T("John"));
+	//	listCtrl.SetItemText(0, 2, _T("Doe"));
+	//	listCtrl.SetItemText(0, 3, _T("john.doe@example.com"));
+	//	listCtrl.SetItemText(0, 4, _T("123-456-7890"));
+	//	listCtrl.SetItemText(0, 5, _T("1980-01-01"));
+	//	listCtrl.SetItemText(0, 6, _T("A1234567"));
+	//}
 
 	// TODO: add draw code for native data here
 }

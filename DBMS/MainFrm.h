@@ -20,16 +20,7 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	MYSQL* conn;
 	MYSQL_RES* res, * reslogon, * reslogoff;
-	MYSQL_ROW row;
-
-
-
-	const char* HOST = "localhost";
-	const char* USER = "root";
-	const char* PASSWORD = "mysql";
-	const char* DATABASE = "mybase";
 // Operations
 public:
 	bool OpenTrans();
@@ -53,6 +44,8 @@ protected:  // control bar embedded members
 	CToolBar          m_wndToolBar;
 	CStatusBar        m_wndStatusBar;
 
+	MYSQL* conn;
+	MYSQL_ROW row;
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -61,8 +54,11 @@ protected:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 
 	void OnOpenMySql();
-
-
+private:
+	const char* HOST = "localhost";
+	const char* USER = "root";
+	const char* PASSWORD = "mysql";
+	const char* DATABASE = "mybase";
 };
 
 

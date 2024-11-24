@@ -42,12 +42,11 @@ void CTreeTables::FillTree()
 
 	tree.Expand(m_hMain, TVE_EXPAND);
 
-	//tree.SetCheck(m_hCoord, m_pDoc->m_bCoord);
-	//tree.SetCheck(m_hSinus, m_pDoc->m_bSinus);
-	//tree.SetCheck(m_hStreaks, m_pDoc->m_bStreaks);
-	//tree.SetCheck(m_hStreaks45, m_pDoc->m_bStreaks45);
-	//tree.SetCheck(m_hBrush, m_pDoc->m_bBrush);
+	tree.SetCheck(m_hClients, m_pDoc->m_bClients);
+	tree.SetCheck(m_hOrders, m_pDoc->m_bOrders);
+	tree.SetCheck(m_hTours, m_pDoc->m_bTours);
 }
+
 void CTreeTables::AssertValid() const
 {
 	CTreeView::AssertValid();
@@ -74,8 +73,6 @@ int CTreeTables::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		| TVS_CHECKBOXES;
 	if (CTreeView::OnCreate(lpCreateStruct) == -1)
 		return -1;
-
-	// TODO:  Добавьте специализированный код создания
 
 	return 0;
 }

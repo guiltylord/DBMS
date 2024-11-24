@@ -101,7 +101,6 @@ void CMainFrame::Dump(CDumpContext& dc) const
 // CMainFrame message handlers
 
 
-
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 {
 	// TODO: Add your specialized code here and/or call the base class

@@ -47,13 +47,13 @@ BOOL CDBMSDoc::OnNewDocument()
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 
-
-	m_pTree->m_pDoc = this;
-	m_pTree->FillTree();
 	
 	m_bClients = true;
 	m_bOrders = false;
 	m_bTours = false;
+
+	m_pTree->m_pDoc = this;
+	m_pTree->FillTree();
 
 	return TRUE;
 }

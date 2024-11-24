@@ -10,20 +10,17 @@ class CTreeTables : public CTreeView
 
 protected:
 	CTreeTables();           // protected constructor used by dynamic creation
-	virtual ~CTreeTables();
-
-	
+	virtual ~CTreeTables();	
 public:
+	CDBMSDoc* m_pDoc;
+	HTREEITEM m_hMain, m_hClients, m_hOrders, m_hTours;
+
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 #ifndef _WIN32_WCE
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 #endif
-	CDBMSDoc* m_pDoc;
-
-	HTREEITEM m_hMain, m_hClients, m_hOrders, m_hTours;
-
 	void FillTree();
 protected:
 	DECLARE_MESSAGE_MAP()
