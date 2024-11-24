@@ -13,7 +13,7 @@ protected:
 	virtual ~CTreeTables();	
 public:
 	CDBMSDoc* m_pDoc;
-	HTREEITEM m_hMain, m_hClients, m_hOrders, m_hTours;
+	HTREEITEM m_hClients, m_hOrders, m_hTours;
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;
