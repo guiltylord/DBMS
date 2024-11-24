@@ -11,14 +11,18 @@
 #endif
 
 #include "DBMSDoc.h"
+#include "MainFrm.h"
 #include "DBMSView.h"
 #include "TreeTables.h"
+
+#include "mysql.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
-
+class CMainFrame;
 // CDBMSView
 
 IMPLEMENT_DYNCREATE(CDBMSView, CListView)
@@ -103,10 +107,16 @@ void CDBMSView::OnInitialUpdate()
 	CListCtrl& listCtrl = GetListCtrl();
 	listCtrl.ModifyStyle(0, LVS_REPORT);
 
-
 	// Insert columns
 	if (pDoc->m_bClients)
 	{
+		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd(); 
+		if (!pFrame)
+			return;
+
+		if (!pFrame->OpenTrans())
+			return;
+
 		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
 		listCtrl.InsertColumn(1, _T("Firstname"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(2, _T("Lastname"), LVCFMT_LEFT, 100);
@@ -114,20 +124,21 @@ void CDBMSView::OnInitialUpdate()
 		listCtrl.InsertColumn(4, _T("PhoneNumber"), LVCFMT_LEFT, 150);
 		listCtrl.InsertColumn(5, _T("DateOfBirth"), LVCFMT_LEFT, 150);
 		listCtrl.InsertColumn(6, _T("PassportNumber"), LVCFMT_LEFT, 150);
+		
+		vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
+		data = pFrame->SelectAllFromTable("clients");
 
-		// Add sample data
-		listCtrl.InsertItem(0, _T("01"));
-		listCtrl.SetItemText(0, 1, _T("John"));
-		listCtrl.SetItemText(0, 2, _T("Doe"));
-		listCtrl.SetItemText(0, 3, _T("john.doe@example.com"));
-		listCtrl.SetItemText(0, 4, _T("123-456-7890"));
-		listCtrl.SetItemText(0, 5, _T("1980-01-01"));
-		listCtrl.SetItemText(0, 6, _T("A1234567"));
+		for (int rowNumb = 0; rowNumb < data->size(); rowNumb++) {
+			MYSQL_ROW row = (*data)[rowNumb];
+			CString cstrRow = CString(row[0]);
+			listCtrl.InsertItem(rowNumb, cstrRow);
+			for (int columnNumb = 1; columnNumb < mysql_num_fields(pFrame->res); columnNumb++) {
+				cstrRow = CString(row[columnNumb]);
+				listCtrl.SetItemText(rowNumb, columnNumb, cstrRow);
+			}
+		}
 	}
-
 	CListView::OnInitialUpdate();
-
-
 }
 
 

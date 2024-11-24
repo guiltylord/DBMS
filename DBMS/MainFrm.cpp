@@ -9,6 +9,9 @@
 #include "DBMSDoc.h"
 #include "TreeTables.h"
 
+#include "mysql.h"
+
+
 #include "MainFrm.h"
 
 #ifdef _DEBUG
@@ -161,10 +164,9 @@ bool CMainFrame::SendQuery(string query)
 
 vector<MYSQL_ROW>* CMainFrame::SelectAllFromTable(string table)
 {
-	vector<MYSQL_ROW>* data;
-	int i = 0;
 	string sql = "SELECT * FROM " + table;
 
+	vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
 	int result = mysql_query(conn, sql.c_str());
 
 	if (res = mysql_store_result(conn)) {

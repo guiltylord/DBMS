@@ -13,6 +13,7 @@
 #include "DBMSDoc.h"
 #include "TreeTables.h"
 
+#include "MainFrm.h"
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -20,6 +21,8 @@
 #endif
 
 // CDBMSDoc
+
+class CMainFrame;
 
 IMPLEMENT_DYNCREATE(CDBMSDoc, CDocument)
 
@@ -142,3 +145,12 @@ void CDBMSDoc::Dump(CDumpContext& dc) const
 
 
 // CDBMSDoc commands
+
+
+void CDBMSDoc::OnCloseDocument()
+{
+	// TODO: Add your specialized code here and/or call the base class
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	pFrame->CloseTrans();
+	CDocument::OnCloseDocument();
+}

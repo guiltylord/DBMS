@@ -20,10 +20,22 @@ protected: // create from serialization only
 
 // Attributes
 public:
+	MYSQL* conn;
+	MYSQL_RES* res, * reslogon, * reslogoff;
+	MYSQL_ROW row;
 
+
+
+	const char* HOST = "localhost";
+	const char* USER = "root";
+	const char* PASSWORD = "mysql";
+	const char* DATABASE = "mybase";
 // Operations
 public:
-
+	bool OpenTrans();
+	bool CloseTrans();
+	bool SendQuery(string query);
+	vector<MYSQL_ROW>* SelectAllFromTable(string table);
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -49,19 +61,8 @@ protected:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 
 	void OnOpenMySql();
-	bool OpenTrans();
-	bool CloseTrans();
-	bool SendQuery(string query);
-	vector<MYSQL_ROW>* SelectAllFromTable (string table);
 
-	const char* HOST = "localhost";
-	const char* USER = "root";
-	const char* PASSWORD = "mysql";
-	const char* DATABASE = "mybase";
 
-	MYSQL* conn;
-	MYSQL_RES* res, * reslogon, * reslogoff;
-	MYSQL_ROW row;
 };
 
 
