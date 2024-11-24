@@ -5,6 +5,7 @@
 #pragma once
 
 #include "DBMSDoc.h";
+#include <string>
 class CDBMSView : public CListView
 {
 protected: // create from serialization only
@@ -20,6 +21,7 @@ public:
 public:
 	void FillTable();
 	void ClearView();
+	void FillTable(std::string tableName, CListCtrl& listCtrl);
 
 // Overrides
 public:

@@ -63,15 +63,7 @@ void CDBMSView::FillTable()
 	CListCtrl& listCtrl = GetListCtrl();
 	listCtrl.ModifyStyle(0, LVS_REPORT);
 
-	if (pDoc->m_bClients)
-	{
-		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-		if (!pFrame)
-			return;
-
-		if (!pFrame->OpenTrans())
-			return;
-
+	if (pDoc->m_bClients) {
 		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
 		listCtrl.InsertColumn(1, _T("Firstname"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(2, _T("Lastname"), LVCFMT_LEFT, 100);
@@ -82,29 +74,11 @@ void CDBMSView::FillTable()
 
 		countColumns = 7;
 
-		vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
-		data = pFrame->SelectAllFromTable("clients");
-
-		for (int rowNumb = 0; rowNumb < data->size(); rowNumb++) {
-			MYSQL_ROW row = (*data)[rowNumb];
-			CString cstrRow = CString(row[0]);
-			listCtrl.InsertItem(rowNumb, cstrRow);
-			for (int columnNumb = 1; columnNumb < mysql_num_fields(pFrame->res); columnNumb++) {
-				cstrRow = CString(row[columnNumb]);
-				listCtrl.SetItemText(rowNumb, columnNumb, cstrRow);
-			}
-		}
+		string tableName = "clients";
+		FillTable(tableName, listCtrl);
 	}
 
-	if (pDoc->m_bOrders)
-	{
-		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-		if (!pFrame)
-			return;
-
-		if (!pFrame->OpenTrans())
-			return;
-
+	if (pDoc->m_bOrders) {
 		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
 		listCtrl.InsertColumn(1, _T("Date"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(2, _T("Peoples"), LVCFMT_LEFT, 100);
@@ -114,29 +88,11 @@ void CDBMSView::FillTable()
 
 		countColumns = 6;
 
-		vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
-		data = pFrame->SelectAllFromTable("orders");
-
-		for (int rowNumb = 0; rowNumb < data->size(); rowNumb++) {
-			MYSQL_ROW row = (*data)[rowNumb];
-			CString cstrRow = CString(row[0]);
-			listCtrl.InsertItem(rowNumb, cstrRow);
-			for (int columnNumb = 1; columnNumb < mysql_num_fields(pFrame->res); columnNumb++) {
-				cstrRow = CString(row[columnNumb]);
-				listCtrl.SetItemText(rowNumb, columnNumb, cstrRow);
-			}
-		}
+		string tableName = "orders";
+		FillTable(tableName, listCtrl);
 	}
 
-	if (pDoc->m_bTours)
-	{
-		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-		if (!pFrame)
-			return;
-
-		if (!pFrame->OpenTrans())
-			return;
-
+	if (pDoc->m_bTours) {
 		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
 		listCtrl.InsertColumn(1, _T("Title"), LVCFMT_LEFT, 200);
 		listCtrl.InsertColumn(2, _T("Location"), LVCFMT_LEFT, 100);
@@ -146,18 +102,8 @@ void CDBMSView::FillTable()
 		
 		countColumns = 6;
 
-		vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
-		data = pFrame->SelectAllFromTable("tours");
-
-		for (int rowNumb = 0; rowNumb < data->size(); rowNumb++) {
-			MYSQL_ROW row = (*data)[rowNumb];
-			CString cstrRow = CString(row[0]);
-			listCtrl.InsertItem(rowNumb, cstrRow);
-			for (int columnNumb = 1; columnNumb < mysql_num_fields(pFrame->res); columnNumb++) {
-				cstrRow = CString(row[columnNumb]);
-				listCtrl.SetItemText(rowNumb, columnNumb, cstrRow);
-			}
-		}
+		string tableName = "tours";
+		FillTable(tableName, listCtrl);
 	}
 }
 
@@ -168,6 +114,28 @@ void CDBMSView::ClearView()
 	listCtrl.DeleteAllItems();
 	for (int i = 0; i < countColumns; i++)
 		listCtrl.DeleteColumn(0);
+}
+
+void CDBMSView::FillTable(string tableName, CListCtrl& listCtrl)
+{
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	if (!pFrame)
+		return;
+
+	if (!pFrame->OpenTrans())
+		return;
+
+	vector<MYSQL_ROW>* data = pFrame->SelectAllFromTable(tableName);
+
+	for (int rowNumb = 0; rowNumb < data->size(); rowNumb++) {
+		MYSQL_ROW row = (*data)[rowNumb];
+		CString cstrRow = CString(row[0]);
+		listCtrl.InsertItem(rowNumb, cstrRow);
+		for (int columnNumb = 1; columnNumb < mysql_num_fields(pFrame->res); columnNumb++) {
+			cstrRow = CString(row[columnNumb]);
+			listCtrl.SetItemText(rowNumb, columnNumb, cstrRow);
+		}
+	}
 }
 
 void CDBMSView::OnDraw(CDC* pDC)
