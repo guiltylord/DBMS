@@ -21,7 +21,7 @@ public:
 public:
 	void FillTable();
 	void ClearView();
-	void FillTable(std::string tableName, CListCtrl& listCtrl);
+	void GetData(std::string tableName, CListCtrl& listCtrl);
 
 // Overrides
 public:

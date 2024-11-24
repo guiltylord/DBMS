@@ -75,7 +75,7 @@ void CDBMSView::FillTable()
 		countColumns = 7;
 
 		string tableName = "clients";
-		FillTable(tableName, listCtrl);
+		GetData(tableName, listCtrl);
 	}
 
 	if (pDoc->m_bOrders) {
@@ -89,7 +89,7 @@ void CDBMSView::FillTable()
 		countColumns = 6;
 
 		string tableName = "orders";
-		FillTable(tableName, listCtrl);
+		GetData(tableName, listCtrl);
 	}
 
 	if (pDoc->m_bTours) {
@@ -103,7 +103,7 @@ void CDBMSView::FillTable()
 		countColumns = 6;
 
 		string tableName = "tours";
-		FillTable(tableName, listCtrl);
+		GetData(tableName, listCtrl);
 	}
 }
 
@@ -116,7 +116,7 @@ void CDBMSView::ClearView()
 		listCtrl.DeleteColumn(0);
 }
 
-void CDBMSView::FillTable(string tableName, CListCtrl& listCtrl)
+void CDBMSView::GetData(string tableName, CListCtrl& listCtrl)
 {
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	if (!pFrame)
