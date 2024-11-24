@@ -44,6 +44,8 @@ void CTreeTables::FillTree()
 	tree.SetCheck(m_hTours, m_pDoc->m_bTours);
 }
 
+
+
 void CTreeTables::AssertValid() const
 {
 	CTreeView::AssertValid();
@@ -107,24 +109,24 @@ void CTreeTables::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 
 	if (m_pDoc->m_bClients = tree.GetCheck(m_hClients)) {
-		m_pDoc->m_bOrders = tree.GetCheck(m_hOrders);
-		m_pDoc->m_bTours = tree.GetCheck(m_hTours);
+		m_pDoc->m_bOrders = m_pDoc->m_bTours = false;
 
-		m_pDoc->m_pView->ClearView();
-		m_pDoc->m_pView->FillTable();
+		ShowNewTable();
 	}
 	if (m_pDoc->m_bOrders = tree.GetCheck(m_hOrders)) {
-		m_pDoc->m_bClients = tree.GetCheck(m_hClients);
-		m_pDoc->m_bTours = tree.GetCheck(m_hTours);
+		m_pDoc->m_bClients = m_pDoc->m_bTours = false;
 
-		m_pDoc->m_pView->ClearView();
-		m_pDoc->m_pView->FillTable();
+		ShowNewTable();
 	}
 	if (m_pDoc->m_bTours = tree.GetCheck(m_hTours)) {
-		m_pDoc->m_bClients = tree.GetCheck(m_hClients);
-		m_pDoc->m_bOrders = tree.GetCheck(m_hOrders);
+		m_pDoc->m_bClients = m_pDoc->m_bOrders = false;
 
-		m_pDoc->m_pView->ClearView();
-		m_pDoc->m_pView->FillTable();
+		ShowNewTable();
 	}
+}
+
+void CTreeTables::ShowNewTable()
+{
+	m_pDoc->m_pView->ClearView();
+	m_pDoc->m_pView->FillTable();
 }

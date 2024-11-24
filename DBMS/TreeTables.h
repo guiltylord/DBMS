@@ -11,6 +11,9 @@ class CTreeTables : public CTreeView
 protected:
 	CTreeTables();           // protected constructor used by dynamic creation
 	virtual ~CTreeTables();	
+	
+	void ShowNewTable();
+
 public:
 	CDBMSDoc* m_pDoc;
 	HTREEITEM m_hClients, m_hOrders, m_hTours;
