@@ -189,6 +189,7 @@
     <ClInclude Include="DBMS.h" />
     <ClInclude Include="DBMSDoc.h" />
     <ClInclude Include="DBMSView.h" />
+    <ClInclude Include="EditDB.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="pch.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="DBMS.cpp" />
     <ClCompile Include="DBMSDoc.cpp" />
     <ClCompile Include="DBMSView.cpp" />
+    <ClCompile Include="EditDB.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
