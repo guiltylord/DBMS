@@ -26,16 +26,37 @@ EditDB::~EditDB()
 void EditDB::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, CLIENTS_EDIT_LASTNAME, e_ClientsLastName);
-	DDX_Control(pDX, CLIENTS_EDIT_FIRSTNAME, e_ClientsName);
-	DDX_Control(pDX, CLIENTS_TEXT_FIRSTNAME, t_ClientsName);
-	DDX_Control(pDX, CLIENTS_TEXT_LASTNAME, t_ClientsLastName);
-	DDX_Control(pDX, ORDERS_EDIT_DATE, e_OrdersDate);
-	DDX_Control(pDX, ORDERS_TEXT_DATE, t_OrdersDate);
-	DDX_Control(pDX, ORDERS_TEXT_PEOPLES, t_OrdersPeoples);
-	DDX_Control(pDX, ORDERS_EDIT_PEOPLES, e_OrdersPeoples);
+	DDX_Control(pDX, EDIT_C1, e_C1);
+	DDX_Control(pDX, EDIT_C2, e_C2);
+	DDX_Control(pDX, EDIT_C3, e_C3);
+	DDX_Control(pDX, EDIT_C4, e_C4);
+	DDX_Control(pDX, EDIT_C5, e_C5);
+	DDX_Control(pDX, EDIT_C6, e_C6);
+
+	DDX_Control(pDX, TEXT_C1, t_C1);
+	DDX_Control(pDX, TEXT_C2, t_C2);
+	DDX_Control(pDX, TEXT_C3, t_C3);
+	DDX_Control(pDX, TEXT_C4, t_C4);
+	DDX_Control(pDX, TEXT_C5, t_C5);
+	DDX_Control(pDX, TEXT_C6, t_C6);
+	DDX_Control(pDX, IDOK, btn_OK);
+	DDX_Control(pDX, IDCANCEL, btn_Cancel);
 }
 
+//EDIT_C1
+//EDIT_C2
+//EDIT_C3
+//EDIT_C4
+//TEXT_C1
+//TEXT_C2
+//TEXT_C3
+//TEXT_C4
+
+//EDIT_C5
+//EDIT_C6
+
+//TEXT_C5
+//TEXT_C6
 
 BEGIN_MESSAGE_MAP(EditDB, CDialog)
 	ON_BN_CLICKED(IDOK, &EditDB::OnBnClickedOk)
@@ -59,27 +80,36 @@ void EditDB::OnEnChangeEdit1()
 void EditDB::OnBnClickedOk()
 {
 	UpdateData(TRUE);
-	// TODO: Add your control notification handler code here
 
 	CString newNameText;
-	e_ClientsName.GetWindowText(newNameText);
+	e_C1.GetWindowText(newNameText);
 
 	CString newLastNameText;
-	e_ClientsLastName.GetWindowText(newLastNameText);
+	e_C2.GetWindowText(newLastNameText);
+
+	CString newEmailText;
+	e_C3.GetWindowText(newEmailText);
+
+	CString newPhoneNumberText;
+	e_C4.GetWindowText(newPhoneNumberText);
+
+	CString newDateOfBirthText;
+	e_C5.GetWindowText(newDateOfBirthText);
+
+	CString newPassportNumberText;
+	e_C6.GetWindowText(newPassportNumberText);
 
 	std::ostringstream oss;
-	oss << "UPDATE clients SET Firstname = '"
-		<< CT2A(newNameText)
-		<< "', Lastname = '"
-		<< CT2A(newLastNameText)
-		<< "' WHERE Id = "
-		<< CT2A(id);
+	oss << "UPDATE clients SET "
+		<< "Firstname = '" << CT2A(newNameText)
+		<< "', Lastname = '" << CT2A(newLastNameText)
+		<< "', Email = '" << CT2A(newEmailText)
+		<< "', PhoneNumber = '" << CT2A(newPhoneNumberText)
+		<< "', DateOfBirth = '" << CT2A(newDateOfBirthText)
+		<< "', PassportNumber = '" << CT2A(newPassportNumberText)
+		<< "' WHERE Id = " << CT2A(id);
 
-
-	
 	query = oss.str();
-
-
 
 	CDialog::OnOK();
 }
@@ -92,7 +122,10 @@ void EditDB::ConfigureWindow()
 	CRect rc;
 	GetClientRect(&rc);
 	
-	MoveWindow(rc.Width(), rc.Height(), 1000, 300);
+	int szX = 900;
+	int szY = 200;
+
+	MoveWindow((width-szX)/2, (height-szY)/2, szX, szY);
 
 	int x1 = 10;
 	int y1 = 30;
@@ -104,20 +137,41 @@ void EditDB::ConfigureWindow()
 	p.x = 10;
 	p.y = 10;*/
 	if(currTable == "clients") {
-		e_ClientsLastName.MoveWindow(x1, y1, 100, 20);
-		e_ClientsName.MoveWindow(x1+=150, y1, 100, 20);
+		e_C1.MoveWindow(x1, y1, 100, 20);
+		e_C2.MoveWindow(x1+=150, y1, 100, 20);
+		e_C3.MoveWindow(x1+=150, y1, 100, 20);
+		e_C4.MoveWindow(x1+=150, y1, 100, 20);
+		e_C5.MoveWindow(x1+=150, y1, 100, 20);
+		e_C6.MoveWindow(x1+=150, y1, 100, 20);
 
-		t_ClientsName.MoveWindow(x2, y2, 100, 15);
-		t_ClientsLastName.MoveWindow(x2 += 150, y2, 100, 15);
+		t_C1.MoveWindow(x2, y2, 100, 15);
+		t_C2.MoveWindow(x2 += 150, y2, 100, 15);
+		t_C3.MoveWindow(x2 += 150, y2, 100, 20);
+		t_C4.MoveWindow(x2 += 150, y2, 100, 20);
+		t_C5.MoveWindow(x2 += 150, y2, 100, 20);
+		t_C6.MoveWindow(x2 += 150, y2, 100, 20);
 
+		//t_C6.ShowWindow(SW_HIDE);
+		//e_C6.ShowWindow(SW_HIDE);
+
+		btn_Cancel.MoveWindow(szX - 100, 100, 75, 30);
+		btn_OK.MoveWindow(szX - 200, 100, 75, 30);
 		
+		t_C1.SetWindowTextW(L"Firstname");
+		t_C2.SetWindowTextW(L"Lastname");
+		t_C3.SetWindowTextW(L"Email");
+		t_C4.SetWindowTextW(L"PhoneNumber");
+		t_C5.SetWindowTextW(L"DateOfBirth");
+		t_C6.SetWindowTextW(L"PassportNumber");
 
-
+		e_C1.SetWindowTextW(C1);
+		e_C2.SetWindowTextW(C2);
+		e_C3.SetWindowTextW(C3);
+		e_C4.SetWindowTextW(C4);
+		e_C5.SetWindowTextW(C5);
+		e_C6.SetWindowTextW(C6);
+		
 		//LastNameEdit.MoveWindow(50, 50, 100, 30);
-		e_OrdersDate.ShowWindow(SW_HIDE);
-		e_OrdersPeoples.ShowWindow(SW_HIDE);
-		t_OrdersDate.ShowWindow(SW_HIDE);
-		t_OrdersPeoples.ShowWindow(SW_HIDE);
 	}
 }
 
@@ -131,3 +185,5 @@ BOOL EditDB::OnInitDialog()
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
+
+

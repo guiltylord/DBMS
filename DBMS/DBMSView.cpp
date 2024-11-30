@@ -263,14 +263,27 @@ void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 	if (pNMItemActivate->iItem != -1)
 	{
-		CString strItemText = listCtrl.GetItemText(pNMItemActivate->iItem, 0);
-		string str= CT2A(strItemText); //convert to str
-		
 		EditDB dlg;
+
+		CString strItemText = listCtrl.GetItemText(pNMItemActivate->iItem, 0);
+		dlg.id = strItemText;
+
+		//for (int i = 1; i < 3; i++) { //нуэен норм алгоритм чтобы перебирать колонки
+		//	dlg.k.push_back(listCtrl.GetItemText(pNMItemActivate->iItem, i));
+		//}
+
+		dlg.C1 = listCtrl.GetItemText(pNMItemActivate->iItem, 1);
+		dlg.C2 = listCtrl.GetItemText(pNMItemActivate->iItem, 2);
+		dlg.C3 = listCtrl.GetItemText(pNMItemActivate->iItem, 3);
+		dlg.C4 = listCtrl.GetItemText(pNMItemActivate->iItem, 4);
+		dlg.C5 = listCtrl.GetItemText(pNMItemActivate->iItem, 5);
+		dlg.C6 = listCtrl.GetItemText(pNMItemActivate->iItem, 6);
+			
+		//string str = CT2A(strItemText); //convert to str
+		
 		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
 
-		dlg.id = strItemText;
 		dlg.currTable = currTable;
 		dlg.pFrame = pFrame;
 
