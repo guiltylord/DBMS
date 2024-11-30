@@ -52,4 +52,5 @@ protected:
 #endif // SHARED_HANDLERS
 public:
 	virtual void OnCloseDocument();
+	afx_msg void OnEditDbDlg();
 };

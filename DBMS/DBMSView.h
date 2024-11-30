@@ -17,6 +17,8 @@ public:
 	CDBMSDoc* GetDocument() const;
 
 	int countColumns;
+
+	std::string currTable;
 // Operations
 public:
 	void FillTable();
@@ -46,6 +48,9 @@ protected:
 // Generated message map functions
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	//afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	afx_msg void OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult);
 };
 
 #ifndef _DEBUG  // debug version in DBMSView.cpp

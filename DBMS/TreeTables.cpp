@@ -86,6 +86,7 @@ void CTreeTables::OnLButtonDown(UINT nFlags, CPoint point)
 	tree.GetItemRect(m_hClients, &rc, false);
 	if (rc.PtInRect(point)) {
 		tree.SelectItem(m_hClients);
+		m_pDoc->m_pView->currTable = "clients";
 
 		tree.SetCheck(m_hOrders, false);
 		tree.SetCheck(m_hTours, false);
@@ -94,6 +95,7 @@ void CTreeTables::OnLButtonDown(UINT nFlags, CPoint point)
 	tree.GetItemRect(m_hOrders, &rc, false);
 	if (rc.PtInRect(point))  {
 		tree.SelectItem(m_hOrders);
+		m_pDoc->m_pView->currTable = "orders";
 
 		tree.SetCheck(m_hClients, false);
 		tree.SetCheck(m_hTours, false);
@@ -102,6 +104,7 @@ void CTreeTables::OnLButtonDown(UINT nFlags, CPoint point)
 	tree.GetItemRect(m_hTours, &rc, false);
 	if (rc.PtInRect(point)) {
 		tree.SelectItem(m_hTours);
+		m_pDoc->m_pView->currTable = "tours";
 
 		tree.SetCheck(m_hClients, false);
 		tree.SetCheck(m_hOrders, false);

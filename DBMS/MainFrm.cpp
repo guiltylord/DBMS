@@ -134,6 +134,7 @@ bool CMainFrame::OpenTrans()
 		fprintf(stderr, "Error: can'tconnecttodatabase %s\n", mysql_error(conn));
 		return false;
 	}
+	this->conn;
 	return true;
 }
 
@@ -143,6 +144,7 @@ bool CMainFrame::CloseTrans()
 		mysql_close(conn);
 	}
 	catch (...) {
+		MessageBox(L"Transaction closing is invalid");
 		return false;
 	}
 	return true;

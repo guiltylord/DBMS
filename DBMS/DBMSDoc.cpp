@@ -14,6 +14,7 @@
 #include "TreeTables.h"
 
 #include "MainFrm.h"
+#include "EditDB.h"
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -27,6 +28,7 @@ class CMainFrame;
 IMPLEMENT_DYNCREATE(CDBMSDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CDBMSDoc, CDocument)
+	ON_COMMAND(EDIT_DB_DLG, &CDBMSDoc::OnEditDbDlg)
 END_MESSAGE_MAP()
 
 
@@ -146,8 +148,14 @@ void CDBMSDoc::Dump(CDumpContext& dc) const
 
 void CDBMSDoc::OnCloseDocument()
 {
-	// TODO: Add your specialized code here and/or call the base class
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	auto pFrame = (CMainFrame*)AfxGetMainWnd();
 	pFrame->CloseTrans();
 	CDocument::OnCloseDocument();
+}
+
+
+void CDBMSDoc::OnEditDbDlg()
+{
+	// TODO: Add your command handler code here
+	EditDB dlg;
 }

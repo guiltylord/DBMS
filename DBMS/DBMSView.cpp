@@ -16,6 +16,7 @@
 #include "TreeTables.h"
 
 #include "mysql.h"
+#include "EditDB.h"
 
 
 #ifdef _DEBUG
@@ -32,6 +33,8 @@ BEGIN_MESSAGE_MAP(CDBMSView, CListView)
 	ON_COMMAND(ID_FILE_PRINT, &CListView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CListView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CListView::OnFilePrintPreview)
+	ON_WM_LBUTTONDBLCLK()
+	ON_NOTIFY_REFLECT(NM_DBLCLK, &CDBMSView::OnNMDblclk)
 END_MESSAGE_MAP()
 
 // CDBMSView construction/destruction
@@ -60,8 +63,7 @@ void CDBMSView::FillTable()
 	CDBMSDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-	CListCtrl& listCtrl = GetListCtrl();
-	listCtrl.ModifyStyle(0, LVS_REPORT);
+	CListCtrl& listCtrl = GetListCtrl();	
 
 	if (pDoc->m_bClients) {
 		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
@@ -100,6 +102,10 @@ void CDBMSView::FillTable()
 		listCtrl.InsertColumn(4, _T("DateFinish"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(5, _T("Price"), LVCFMT_LEFT, 100);
 		
+		
+
+
+
 		countColumns = 6;
 
 		string tableName = "tours";
@@ -133,6 +139,8 @@ void CDBMSView::GetData(string tableName, CListCtrl& listCtrl)
 		listCtrl.InsertItem(rowNumb, cstrRow);
 		for (int columnNumb = 1; columnNumb < mysql_num_fields(pFrame->res); columnNumb++) {
 			cstrRow = CString(row[columnNumb]);
+
+			
 			listCtrl.SetItemText(rowNumb, columnNumb, cstrRow);
 		}
 	}
@@ -147,6 +155,9 @@ void CDBMSView::OnDraw(CDC* pDC)
 
 void CDBMSView::OnInitialUpdate() 
 {
+	CListCtrl& listCtrl = GetListCtrl();
+	listCtrl.ModifyStyle(0, LVS_REPORT);
+	//listCtrl.sub
 }
 
 
@@ -189,3 +200,88 @@ CDBMSDoc* CDBMSView::GetDocument() const // non-debug version is inline
 }
 #endif //_DEBUG
 
+
+
+//void CDBMSView::OnLButtonDblClk(UINT nFlags, CPoint point)
+//{
+	//CListView::OnLButtonDblClk(nFlags, point);
+	//// TODO: Add your message handler code here and/or call default
+	//CListCtrl& listCtrl = GetListCtrl();
+	//CString str;
+
+	//LVHITTESTINFO info;
+	//info.pt = point;
+	//info.flags = LVHT_ONITEMLABEL;
+
+	//if (listCtrl->SubItemHitTest(&info) >= 0)
+	//{
+	//	int row = info.iItem;
+	//	int column = info.iSubItem;
+
+	//	CRect rect;
+	//	pTable->GetSubItemRect(row, column, LVIR_LABEL, rect);
+
+
+
+	//	m_selectedCellIndex = info.iItem;
+
+
+	//	switch (m_pTreeView->GetSelectedItem())
+	//	{
+	//	case drivers_tbl:
+	//		break;
+	//	case cars_tbl:
+	//	{
+	//		CCarRowEditorDlg dlg;
+	//		dlg.GetVars(pTable->GetItemText(info.iItem, 0), pTable->GetItemText(info.iItem, 1));
+	//		dlg.DoModal();
+
+	//		break;
+	//	}
+
+	//	case routes_tbl:
+	//		break;
+	//	}
+	//	Invalidate();
+
+	//}
+//}
+
+
+
+
+
+
+
+void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
+{
+
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+	CListCtrl& listCtrl = GetListCtrl();
+
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	if (pNMItemActivate->iItem != -1)
+	{
+		CString strItemText = listCtrl.GetItemText(pNMItemActivate->iItem, 0);
+		string str= CT2A(strItemText); //convert to str
+		
+		EditDB dlg;
+		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+
+		dlg.id = strItemText;
+		dlg.currTable = currTable;
+		dlg.pFrame = pFrame;
+
+		if (dlg.DoModal() == IDOK)
+		{
+			pFrame->SendQuery(dlg.query);
+			ClearView();
+			FillTable();
+		}
+	}
+
+
+	*pResult = 0;
+}
