@@ -82,49 +82,30 @@ void CTreeTables::OnLButtonDown(UINT nFlags, CPoint point)
 
 	CTreeCtrl& tree = GetTreeCtrl();
 	CRect rc;
-
-	tree.GetItemRect(m_hClients, &rc, false);
-	if (rc.PtInRect(point)) {
-		tree.SelectItem(m_hClients);
-		m_pDoc->m_pView->currTable = "clients";
-
-		tree.SetCheck(m_hOrders, false);
-		tree.SetCheck(m_hTours, false);
+	auto selTreeItem = tree.GetSelectedItem();
+	if (selTreeItem == nullptr) {
+		return;
 	}
-
-	tree.GetItemRect(m_hOrders, &rc, false);
-	if (rc.PtInRect(point))  {
-		tree.SelectItem(m_hOrders);
-		m_pDoc->m_pView->currTable = "orders";
-
-		tree.SetCheck(m_hClients, false);
-		tree.SetCheck(m_hTours, false);
-	}
-
-	tree.GetItemRect(m_hTours, &rc, false);
-	if (rc.PtInRect(point)) {
-		tree.SelectItem(m_hTours);
-		m_pDoc->m_pView->currTable = "tours";
-
-		tree.SetCheck(m_hClients, false);
-		tree.SetCheck(m_hOrders, false);
-	}
-
-	if (m_pDoc->m_bClients = tree.GetCheck(m_hClients)) {
+	auto selTable = tree.GetItemText(selTreeItem);
+	if (selTable == "Clients") {
+		m_pDoc->m_bClients = true;
+		m_pDoc->m_pView->currTable = "Clients";
 		m_pDoc->m_bOrders = m_pDoc->m_bTours = false;
-
-		ShowNewTable();
 	}
-	if (m_pDoc->m_bOrders = tree.GetCheck(m_hOrders)) {
+	
+	if (selTable == "Orders") {
+		m_pDoc->m_bOrders = true;
+		m_pDoc->m_pView->currTable = "Orders";
 		m_pDoc->m_bClients = m_pDoc->m_bTours = false;
-
-		ShowNewTable();
 	}
-	if (m_pDoc->m_bTours = tree.GetCheck(m_hTours)) {
+
+	if (selTable == "Tours") {
+		m_pDoc->m_bTours = true;
+		m_pDoc->m_pView->currTable = "Tours";
 		m_pDoc->m_bClients = m_pDoc->m_bOrders = false;
-
-		ShowNewTable();
 	}
+	
+	ShowNewTable();
 }
 
 void CTreeTables::ShowNewTable()
