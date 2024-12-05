@@ -157,19 +157,24 @@ bool CMainFrame::SendQuery(string query)
 	return false;
 }
 
-vector<MYSQL_ROW>* CMainFrame::SelectAllFromTable(string table)
+void CMainFrame::SelectAllFromTable(string table)
 {
 	string sql = "SELECT * FROM " + table;
 
 	vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
-	int result = mysql_query(conn, sql.c_str());
+	int result = mysql_query(conn, table.c_str());
+}
+
+vector<MYSQL_ROW>* CMainFrame::GetData()
+{
+
+	vector<MYSQL_ROW>* data = new vector<MYSQL_ROW>();
 
 	if (res = mysql_store_result(conn)) {
 		while (row = mysql_fetch_row(res)) {
 			data->push_back(row);
 		}
-		return data;
 	}
-	else
-		return nullptr;
+
+	return data;
 }

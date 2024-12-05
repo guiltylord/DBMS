@@ -53,4 +53,5 @@ protected:
 public:
 	virtual void OnCloseDocument();
 	afx_msg void OnEditDbDlg();
+	afx_msg void OnActionsAdddata();
 };

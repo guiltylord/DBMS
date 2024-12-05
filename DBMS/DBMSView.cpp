@@ -35,6 +35,8 @@ BEGIN_MESSAGE_MAP(CDBMSView, CListView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CListView::OnFilePrintPreview)
 	ON_WM_LBUTTONDBLCLK()
 	ON_NOTIFY_REFLECT(NM_DBLCLK, &CDBMSView::OnNMDblclk)
+	ON_WM_RBUTTONDOWN()
+	ON_COMMAND(ID_ACTIONS_ADDDATA, &CDBMSView::OnActionsAdddata)
 END_MESSAGE_MAP()
 
 // CDBMSView construction/destruction
@@ -66,7 +68,7 @@ void CDBMSView::FillTable()
 	CListCtrl& listCtrl = GetListCtrl();	
 
 	if (pDoc->m_bClients) {
-		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
+		listCtrl.InsertColumn(0, _T(""), LVCFMT_LEFT, 35);
 		listCtrl.InsertColumn(1, _T("Firstname"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(2, _T("Lastname"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(3, _T("Email"), LVCFMT_LEFT, 250);
@@ -81,12 +83,12 @@ void CDBMSView::FillTable()
 	}
 
 	if (pDoc->m_bOrders) {
-		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
+		listCtrl.InsertColumn(0, _T(""), LVCFMT_LEFT, 35);
 		listCtrl.InsertColumn(1, _T("Date"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(2, _T("Peoples"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(3, _T("Total price"), LVCFMT_LEFT, 150);
-		listCtrl.InsertColumn(4, _T("ClientId"), LVCFMT_LEFT, 100);
-		listCtrl.InsertColumn(5, _T("TourId"), LVCFMT_LEFT, 100);
+		listCtrl.InsertColumn(4, _T("Client Lastname"), LVCFMT_LEFT, 150);
+		listCtrl.InsertColumn(5, _T("Title of tour"), LVCFMT_LEFT, 175);
 
 		countColumns = 6;
 
@@ -95,7 +97,7 @@ void CDBMSView::FillTable()
 	}
 
 	if (pDoc->m_bTours) {
-		listCtrl.InsertColumn(0, _T("Id"), LVCFMT_LEFT, 35);
+		listCtrl.InsertColumn(0, _T(""), LVCFMT_LEFT, 35);
 		listCtrl.InsertColumn(1, _T("Title"), LVCFMT_LEFT, 200);
 		listCtrl.InsertColumn(2, _T("Location"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(3, _T("DateStart"), LVCFMT_LEFT, 150);
@@ -131,7 +133,33 @@ void CDBMSView::GetData(string tableName, CListCtrl& listCtrl)
 	if (!pFrame->OpenTrans())
 		return;
 
-	vector<MYSQL_ROW>* data = pFrame->SelectAllFromTable(tableName);
+	vector<MYSQL_ROW>* data;
+
+
+	if (currTable == "orders") {
+		string query = "SELECT\
+			o.Id AS OrderId,\
+			o.Date AS OrderDate,\
+			o.Peoples AS NumberOfPeople,\
+			o.Price AS OrderPrice,\
+			c.Lastname AS ClientLastname,\
+			t.Title AS TourTitle\
+			FROM\
+			orders o\
+			JOIN\
+			clients c ON o.ClientId = c.Id\
+			JOIN\
+			tours t ON o.TourId = t.Id";
+		pFrame->SendQuery(query);
+		data = pFrame->GetData();
+
+	}
+	else
+	{
+		string sql = "SELECT * FROM " + tableName;
+		pFrame->SendQuery(sql);
+		data = pFrame->GetData();
+	}
 
 	for (int rowNumb = 0; rowNumb < data->size(); rowNumb++) {
 		MYSQL_ROW row = (*data)[rowNumb];
@@ -255,7 +283,6 @@ CDBMSDoc* CDBMSView::GetDocument() const // non-debug version is inline
 
 void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 {
-
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
 	CListCtrl& listCtrl = GetListCtrl();
@@ -267,11 +294,9 @@ void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 
 		CString strItemText = listCtrl.GetItemText(pNMItemActivate->iItem, 0);
 		dlg.id = strItemText;
-
 		//for (int i = 1; i < 3; i++) { //нуэен норм алгоритм чтобы перебирать колонки
 		//	dlg.k.push_back(listCtrl.GetItemText(pNMItemActivate->iItem, i));
 		//}
-
 		dlg.C1 = listCtrl.GetItemText(pNMItemActivate->iItem, 1);
 		dlg.C2 = listCtrl.GetItemText(pNMItemActivate->iItem, 2);
 		dlg.C3 = listCtrl.GetItemText(pNMItemActivate->iItem, 3);
@@ -286,6 +311,7 @@ void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 
 		dlg.currTable = currTable;
 		dlg.pFrame = pFrame;
+		dlg.typeAccess = SHOW;
 
 		if (dlg.DoModal() == IDOK)
 		{
@@ -294,7 +320,55 @@ void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 			FillTable();
 		}
 	}
-
-
+	
 	*pResult = 0;
+}
+
+
+void CDBMSView::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	CListView::OnRButtonDown(nFlags, point);
+	
+	ClientToScreen(&point);
+
+	CCmdUI state;
+	CMenu* pMenu = AfxGetMainWnd()->GetMenu()->GetSubMenu(2);
+
+	state.m_pMenu = pMenu;
+	state.m_nIndexMax = pMenu->GetMenuItemCount();
+	for (UINT i = 0; i < state.m_nIndexMax; i++)
+	{
+		state.m_nIndex = i;
+		state.m_nID = pMenu->GetMenuItemID(i);
+		state.DoUpdate(this, FALSE);
+	}
+
+	pMenu->TrackPopupMenu(TPM_LEFTALIGN, point.x, point.y, this);
+
+	//CListView::OnRButtonDown(nFlags, point);
+}
+
+
+void CDBMSView::OnActionsAdddata()
+{
+	// TODO: Add your command handler code here
+
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+	CListCtrl& listCtrl = GetListCtrl();
+
+	EditDB dlg;
+	//INSERT INTO Clients(Firstname, Lastname, Email, PhoneNumber, DateOfBirth, PassportNumber)
+	//	VALUES('John', 'Doe', 'john.doe@example.com', '123-456-7890', '1990-01-01', 'AB1234567');
+	dlg.currTable = currTable;
+	dlg.pFrame = pFrame;
+	dlg.typeAccess = EDIT;
+
+
+	if (dlg.DoModal() == IDOK)
+	{
+		pFrame->SendQuery(dlg.query);
+		ClearView();
+		FillTable();
+	}
 }

@@ -51,6 +51,8 @@ protected:
 public:
 	//afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnActionsAdddata();
 };
 
 #ifndef _DEBUG  // debug version in DBMSView.cpp

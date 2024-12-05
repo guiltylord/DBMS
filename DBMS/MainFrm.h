@@ -26,7 +26,8 @@ public:
 	bool OpenTrans();
 	bool CloseTrans();
 	bool SendQuery(string query);
-	vector<MYSQL_ROW>* SelectAllFromTable(string table);
+	void SelectAllFromTable(string table);
+	vector<MYSQL_ROW>* GetData();
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

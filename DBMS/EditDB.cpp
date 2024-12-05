@@ -99,15 +99,28 @@ void EditDB::OnBnClickedOk()
 	CString newPassportNumberText;
 	e_C6.GetWindowText(newPassportNumberText);
 
-	std::ostringstream oss;
-	oss << "UPDATE clients SET "
-		<< "Firstname = '" << CT2A(newNameText)
-		<< "', Lastname = '" << CT2A(newLastNameText)
-		<< "', Email = '" << CT2A(newEmailText)
-		<< "', PhoneNumber = '" << CT2A(newPhoneNumberText)
-		<< "', DateOfBirth = '" << CT2A(newDateOfBirthText)
-		<< "', PassportNumber = '" << CT2A(newPassportNumberText)
-		<< "' WHERE Id = " << CT2A(id);
+		std::ostringstream oss;
+	if (typeAccess==SHOW) {
+		oss << "UPDATE clients SET "
+			<< "Firstname = '" << CT2A(newNameText)
+			<< "', Lastname = '" << CT2A(newLastNameText)
+			<< "', Email = '" << CT2A(newEmailText)
+			<< "', PhoneNumber = '" << CT2A(newPhoneNumberText)
+			<< "', DateOfBirth = '" << CT2A(newDateOfBirthText)
+			<< "', PassportNumber = '" << CT2A(newPassportNumberText)
+			<< "' WHERE Id = " << CT2A(id);
+	}
+
+	if (typeAccess == EDIT) {
+		oss << "INSERT INTO Clients(Firstname, Lastname, Email, PhoneNumber, DateOfBirth, PassportNumber) "
+			<< "VALUES('" << CT2A(newNameText)
+			<< "', '" << CT2A(newLastNameText)
+			<< "', '" << CT2A(newEmailText)
+			<< "', '" << CT2A(newPhoneNumberText)
+			<< "', '" << CT2A(newDateOfBirthText)
+			<< "', '" << CT2A(newPassportNumberText)
+			<< "')";
+	}
 
 	query = oss.str();
 

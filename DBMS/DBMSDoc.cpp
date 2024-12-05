@@ -29,6 +29,7 @@ IMPLEMENT_DYNCREATE(CDBMSDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CDBMSDoc, CDocument)
 	ON_COMMAND(EDIT_DB_DLG, &CDBMSDoc::OnEditDbDlg)
+	ON_COMMAND(ID_ACTIONS_ADDDATA, &CDBMSDoc::OnActionsAdddata)
 END_MESSAGE_MAP()
 
 
@@ -158,4 +159,10 @@ void CDBMSDoc::OnEditDbDlg()
 {
 	// TODO: Add your command handler code here
 	EditDB dlg;
+}
+
+
+void CDBMSDoc::OnActionsAdddata()
+{
+	
 }

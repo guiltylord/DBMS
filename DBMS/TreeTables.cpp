@@ -132,3 +132,4 @@ void CTreeTables::ShowNewTable()
 	m_pDoc->m_pView->ClearView();
 	m_pDoc->m_pView->FillTable();
 }
+

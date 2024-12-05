@@ -4,6 +4,8 @@
 #include <vector>
 #include "MainFrm.h"
 
+#define EDIT 0
+#define SHOW 1
 
 // EditDB dialog
 
@@ -16,6 +18,7 @@ public:
 	virtual ~EditDB();
 	
 	CString id;
+	int typeAccess;
 
 	CString C1;
 	CString C2;
@@ -48,6 +51,8 @@ public:
 
 protected:
 	virtual BOOL OnInitDialog();
+
+
 	CEdit e_C2;
 	CEdit e_C1;
 	CEdit e_C3;
