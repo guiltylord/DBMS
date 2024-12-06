@@ -81,45 +81,83 @@ void EditDB::OnBnClickedOk()
 {
 	UpdateData(TRUE);
 
-	CString newNameText;
-	e_C1.GetWindowText(newNameText);
+	CString newC1;
+	e_C1.GetWindowText(newC1);
 
-	CString newLastNameText;
-	e_C2.GetWindowText(newLastNameText);
+	CString newC2;
+	e_C2.GetWindowText(newC2);
 
-	CString newEmailText;
-	e_C3.GetWindowText(newEmailText);
+	CString newC3;
+	e_C3.GetWindowText(newC3);
 
-	CString newPhoneNumberText;
-	e_C4.GetWindowText(newPhoneNumberText);
+	CString newC4;
+	e_C4.GetWindowText(newC4);
 
-	CString newDateOfBirthText;
-	e_C5.GetWindowText(newDateOfBirthText);
+	CString newC5;
+	e_C5.GetWindowText(newC5);
 
-	CString newPassportNumberText;
-	e_C6.GetWindowText(newPassportNumberText);
+	CString newC6;
+	e_C6.GetWindowText(newC6);
 
-		std::ostringstream oss;
-	if (typeAccess==SHOW) {
-		oss << "UPDATE clients SET "
-			<< "Firstname = '" << CT2A(newNameText)
-			<< "', Lastname = '" << CT2A(newLastNameText)
-			<< "', Email = '" << CT2A(newEmailText)
-			<< "', PhoneNumber = '" << CT2A(newPhoneNumberText)
-			<< "', DateOfBirth = '" << CT2A(newDateOfBirthText)
-			<< "', PassportNumber = '" << CT2A(newPassportNumberText)
-			<< "' WHERE Id = " << CT2A(id);
+	std::ostringstream oss;
+	if (typeAccess == EDIT) {
+		if (currTable == "Clients") {
+			oss << "UPDATE clients SET "
+				<< "Firstname = '" << CT2A(newC1)
+				<< "', Lastname = '" << CT2A(newC2)
+				<< "', Email = '" << CT2A(newC3)
+				<< "', PhoneNumber = '" << CT2A(newC4)
+				<< "', DateOfBirth = '" << CT2A(newC5)
+				<< "', PassportNumber = '" << CT2A(newC6)
+				<< "' WHERE Id = " << CT2A(id);
+		}
+		if (currTable == "Orders") {
+			oss << "UPDATE orders "
+				<< "SET Date = '" << CT2A(newC1) << "', "
+				<< "Peoples = " << CT2A(newC2) << ", "
+				<< "Price = " << CT2A(newC3) << ", "
+				<< "ClientId = (SELECT Id FROM clients WHERE Lastname = '" << CT2A(newC4) << "'), "
+				<< "TourId = (SELECT Id FROM tours WHERE Title = '" << CT2A(newC5) << "') "
+				<< "WHERE Id = " << CT2A(id);
+		}
+		if (currTable == "Tours") {
+			oss << "UPDATE tours SET "
+				<< "Title = '" << CT2A(newC1)
+				<< "', Location = '" << CT2A(newC2)
+				<< "', DateStart = '" << CT2A(newC3)
+				<< "', DateFinish = '" << CT2A(newC4)
+				<< "', Price = '" << CT2A(newC5)
+				<< "' WHERE Id = " << CT2A(id);
+		}
 	}
 
-	if (typeAccess == EDIT) {
-		oss << "INSERT INTO Clients(Firstname, Lastname, Email, PhoneNumber, DateOfBirth, PassportNumber) "
-			<< "VALUES('" << CT2A(newNameText)
-			<< "', '" << CT2A(newLastNameText)
-			<< "', '" << CT2A(newEmailText)
-			<< "', '" << CT2A(newPhoneNumberText)
-			<< "', '" << CT2A(newDateOfBirthText)
-			<< "', '" << CT2A(newPassportNumberText)
-			<< "')";
+	if (typeAccess == ADD) {
+		if(currTable == "Clients") {
+			oss << "INSERT INTO Clients(Firstname, Lastname, Email, PhoneNumber, DateOfBirth, PassportNumber) "
+				<< "VALUES('" << CT2A(newC1)
+				<< "', '" << CT2A(newC2)
+				<< "', '" << CT2A(newC3)
+				<< "', '" << CT2A(newC4)
+				<< "', '" << CT2A(newC5)
+				<< "', '" << CT2A(newC6)
+				<< "')";
+		}
+		if(currTable == "Orders") {
+			oss << "INSERT INTO orders (Date, Peoples, Price, ClientId, TourId) "
+				<< "VALUES ('" << CT2A(newC1) << "', " << CT2A(newC2) << ", " << CT2A(newC3) << ", " 
+				<< "(SELECT Id FROM clients WHERE Lastname = '"  << CT2A(newC4) << "'), "
+				<< "(SELECT Id FROM tours WHERE Title = '" << CT2A(newC5) << "'))";
+		}
+		if (currTable == "Tours") {
+			oss << "INSERT INTO tours (Title, Location, DateStart, DateFinish, Price) "
+				<< "VALUES ('"
+				<< CT2A(newC1)
+				<< "', '" << CT2A(newC2)
+				<< "', '" << CT2A(newC3)
+				<< "', '" << CT2A(newC4)
+				<< "', " << CT2A(newC5)
+				<< ")";
+		}
 	}
 
 	query = oss.str();
@@ -143,10 +181,6 @@ void EditDB::ConfigureWindow()
 
 	int x2 = x1+1;
 	int y2 = 10;
-
-	/*auto p = POINT();
-	p.x = 10;
-	p.y = 10;*/
 	if(currTable == "Clients") {
 		szWndX = 900;
 		szWndY = 200;
@@ -167,9 +201,6 @@ void EditDB::ConfigureWindow()
 		t_C5.MoveWindow(x2 += 150, y2, 100, 20);
 		t_C6.MoveWindow(x2 += 150, y2, 100, 20);
 
-		//t_C6.ShowWindow(SW_HIDE);
-		//e_C6.ShowWindow(SW_HIDE);
-
 		btn_Cancel.MoveWindow(szWndX - 100, 100, 75, 30);
 		btn_OK.MoveWindow(szWndX - 200, 100, 75, 30);
 		
@@ -187,7 +218,6 @@ void EditDB::ConfigureWindow()
 		e_C5.SetWindowTextW(C5);
 		e_C6.SetWindowTextW(C6);
 		
-		//LastNameEdit.MoveWindow(50, 50, 100, 30);
 	}
 
 	if (currTable == "Orders") {
@@ -200,14 +230,12 @@ void EditDB::ConfigureWindow()
 		e_C3.MoveWindow(x1 += 150, y1, 100, 20);
 		e_C4.MoveWindow(x1 += 150, y1, 100, 20);
 		e_C5.MoveWindow(x1 += 150, y1, 200, 20);
-		//e_C6.MoveWindow(x1 += 150, y1, 100, 20);
 
 		t_C1.MoveWindow(x2, y2, 100, 15);
 		t_C2.MoveWindow(x2 += 150, y2, 100, 15);
 		t_C3.MoveWindow(x2 += 150, y2, 100, 20);
 		t_C4.MoveWindow(x2 += 150, y2, 100, 20);
 		t_C5.MoveWindow(x2 += 150, y2, 100, 20);
-		//t_C6.MoveWindow(x2 += 150, y2, 100, 20);
 
 		t_C6.ShowWindow(SW_HIDE);
 		e_C6.ShowWindow(SW_HIDE);
@@ -220,16 +248,12 @@ void EditDB::ConfigureWindow()
 		t_C3.SetWindowTextW(L"Total price");
 		t_C4.SetWindowTextW(L"Client lastname");
 		t_C5.SetWindowTextW(L"Title of tour");
-		//t_C6.SetWindowTextW(L"PassportNumber");
 
 		e_C1.SetWindowTextW(C1);
 		e_C2.SetWindowTextW(C2);
 		e_C3.SetWindowTextW(C3);
 		e_C4.SetWindowTextW(C4);
 		e_C5.SetWindowTextW(C5);
-		//e_C6.SetWindowTextW(C6);
-
-		//LastNameEdit.MoveWindow(50, 50, 100, 30);
 	}
 
 	if (currTable == "Tours") {
@@ -242,14 +266,12 @@ void EditDB::ConfigureWindow()
 		e_C3.MoveWindow(x1 += 150, y1, 100, 20);
 		e_C4.MoveWindow(x1 += 150, y1, 100, 20);
 		e_C5.MoveWindow(x1 += 150, y1, 100, 20);
-		//e_C6.MoveWindow(x1 += 150, y1, 100, 20);
 
 		t_C1.MoveWindow(x2, y2, 100, 15);
 		t_C2.MoveWindow(x2 += 150, y2, 100, 15);
 		t_C3.MoveWindow(x2 += 150, y2, 100, 20);
 		t_C4.MoveWindow(x2 += 150, y2, 100, 20);
 		t_C5.MoveWindow(x2 += 150, y2, 100, 20);
-		//t_C6.MoveWindow(x2 += 150, y2, 100, 20);
 
 		t_C6.ShowWindow(SW_HIDE);
 		e_C6.ShowWindow(SW_HIDE);
@@ -262,16 +284,12 @@ void EditDB::ConfigureWindow()
 		t_C3.SetWindowTextW(L"DateStart");
 		t_C4.SetWindowTextW(L"DateFinish");
 		t_C5.SetWindowTextW(L"Price");
-		//t_C6.SetWindowTextW(L"PassportNumber");
 
 		e_C1.SetWindowTextW(C1);
 		e_C2.SetWindowTextW(C2);
 		e_C3.SetWindowTextW(C3);
 		e_C4.SetWindowTextW(C4);
 		e_C5.SetWindowTextW(C5);
-		//e_C6.SetWindowTextW(C6);
-
-		//LastNameEdit.MoveWindow(50, 50, 100, 30);
 	}
 }
 

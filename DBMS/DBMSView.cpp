@@ -132,25 +132,21 @@ void CDBMSView::GetData(string tableName, CListCtrl& listCtrl)
 	vector<MYSQL_ROW>* data;
 
 	if (currTable == "Orders") {
-		string query = "SELECT\
-			o.Id AS OrderId,\
-			o.Date AS OrderDate,\
-			o.Peoples AS NumberOfPeople,\
-			o.Price AS OrderPrice,\
-			c.Lastname AS ClientLastname,\
-			t.Title AS TourTitle\
-			FROM\
-			orders o\
-			JOIN\
-			clients c ON o.ClientId = c.Id\
-			JOIN\
-			tours t ON o.TourId = t.Id";
+		string query = "\
+			SELECT\
+		o.Id AS OrderId, \
+		o.Date AS OrderDate, \
+		o.Peoples AS NumberOfPeople,\
+		o.Price AS OrderPrice, \
+		c.Lastname AS ClientLastname,\
+		t.Title AS TourTitle \
+			FROM orders o\
+			JOIN clients c ON o.ClientId = c.Id\
+			JOIN tours t ON o.TourId = t.Id";
 		pFrame->SendQuery(query);
 		data = pFrame->GetData();
-
 	}
-	else
-	{
+	else {
 		string sql = "SELECT * FROM " + tableName;
 		pFrame->SendQuery(sql);
 		data = pFrame->GetData();
@@ -222,59 +218,6 @@ CDBMSDoc* CDBMSView::GetDocument() const // non-debug version is inline
 }
 #endif //_DEBUG
 
-
-
-//void CDBMSView::OnLButtonDblClk(UINT nFlags, CPoint point)
-//{
-	//CListView::OnLButtonDblClk(nFlags, point);
-	//// TODO: Add your message handler code here and/or call default
-	//CListCtrl& listCtrl = GetListCtrl();
-	//CString str;
-
-	//LVHITTESTINFO info;
-	//info.pt = point;
-	//info.flags = LVHT_ONITEMLABEL;
-
-	//if (listCtrl->SubItemHitTest(&info) >= 0)
-	//{
-	//	int row = info.iItem;
-	//	int column = info.iSubItem;
-
-	//	CRect rect;
-	//	pTable->GetSubItemRect(row, column, LVIR_LABEL, rect);
-
-
-
-	//	m_selectedCellIndex = info.iItem;
-
-
-	//	switch (m_pTreeView->GetSelectedItem())
-	//	{
-	//	case drivers_tbl:
-	//		break;
-	//	case cars_tbl:
-	//	{
-	//		CCarRowEditorDlg dlg;
-	//		dlg.GetVars(pTable->GetItemText(info.iItem, 0), pTable->GetItemText(info.iItem, 1));
-	//		dlg.DoModal();
-
-	//		break;
-	//	}
-
-	//	case routes_tbl:
-	//		break;
-	//	}
-	//	Invalidate();
-
-	//}
-//}
-
-
-
-
-
-
-
 void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
@@ -288,24 +231,19 @@ void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 
 		CString strItemText = listCtrl.GetItemText(pNMItemActivate->iItem, 0);
 		dlg.id = strItemText;
-		//for (int i = 1; i < 3; i++) { //нуэен норм алгоритм чтобы перебирать колонки
-		//	dlg.k.push_back(listCtrl.GetItemText(pNMItemActivate->iItem, i));
-		//}
+
 		dlg.C1 = listCtrl.GetItemText(pNMItemActivate->iItem, 1);
 		dlg.C2 = listCtrl.GetItemText(pNMItemActivate->iItem, 2);
 		dlg.C3 = listCtrl.GetItemText(pNMItemActivate->iItem, 3);
 		dlg.C4 = listCtrl.GetItemText(pNMItemActivate->iItem, 4);
 		dlg.C5 = listCtrl.GetItemText(pNMItemActivate->iItem, 5);
 		dlg.C6 = listCtrl.GetItemText(pNMItemActivate->iItem, 6);
-		//dlg.ConfigureWindow
-		//string str = CT2A(strItemText); //convert to str
 		
 		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
-
 		dlg.currTable = currTable;
 		dlg.pFrame = pFrame;
-		dlg.typeAccess = SHOW;
+		dlg.typeAccess = EDIT;
 
 		if (dlg.DoModal() == IDOK)
 		{
@@ -352,11 +290,10 @@ void CDBMSView::OnActionsAdddata()
 	CListCtrl& listCtrl = GetListCtrl();
 
 	EditDB dlg;
-	//INSERT INTO Clients(Firstname, Lastname, Email, PhoneNumber, DateOfBirth, PassportNumber)
-	//	VALUES('John', 'Doe', 'john.doe@example.com', '123-456-7890', '1990-01-01', 'AB1234567');
+
 	dlg.currTable = currTable;
 	dlg.pFrame = pFrame;
-	dlg.typeAccess = EDIT;
+	dlg.typeAccess = ADD;
 
 
 	if (dlg.DoModal() == IDOK)

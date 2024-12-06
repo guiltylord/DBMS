@@ -4,8 +4,8 @@
 #include <vector>
 #include "MainFrm.h"
 
-#define EDIT 0
-#define SHOW 1
+#define ADD 0
+#define EDIT 1
 
 // EditDB dialog
 

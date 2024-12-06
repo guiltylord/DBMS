@@ -144,7 +144,7 @@ bool CMainFrame::CloseTrans()
 		mysql_close(conn);
 	}
 	catch (...) {
-		MessageBox(L"Transaction closing is invalid");
+		AfxMessageBox(L"Transaction closing is invalid");
 		return false;
 	}
 	return true;
