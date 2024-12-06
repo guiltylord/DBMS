@@ -78,7 +78,7 @@ void CDBMSView::FillTable()
 
 		countColumns = 7;
 
-		string tableName = "clients";
+		string tableName = "Clients";
 		GetData(tableName, listCtrl);
 	}
 
@@ -104,10 +104,6 @@ void CDBMSView::FillTable()
 		listCtrl.InsertColumn(4, _T("DateFinish"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(5, _T("Price"), LVCFMT_LEFT, 100);
 		
-		
-
-
-
 		countColumns = 6;
 
 		string tableName = "tours";
@@ -135,8 +131,7 @@ void CDBMSView::GetData(string tableName, CListCtrl& listCtrl)
 
 	vector<MYSQL_ROW>* data;
 
-
-	if (currTable == "orders") {
+	if (currTable == "Orders") {
 		string query = "SELECT\
 			o.Id AS OrderId,\
 			o.Date AS OrderDate,\
@@ -163,11 +158,10 @@ void CDBMSView::GetData(string tableName, CListCtrl& listCtrl)
 
 	for (int rowNumb = 0; rowNumb < data->size(); rowNumb++) {
 		MYSQL_ROW row = (*data)[rowNumb];
-		CString cstrRow = CString(row[0]);
+		CString cstrRow = CString(row[0]); //¬Œ“ “”“ «¿œŒÀÕﬂ≈“—ﬂ ¿…ƒ»ÿÕ» 
 		listCtrl.InsertItem(rowNumb, cstrRow);
 		for (int columnNumb = 1; columnNumb < mysql_num_fields(pFrame->res); columnNumb++) {
 			cstrRow = CString(row[columnNumb]);
-
 			
 			listCtrl.SetItemText(rowNumb, columnNumb, cstrRow);
 		}
@@ -303,7 +297,7 @@ void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 		dlg.C4 = listCtrl.GetItemText(pNMItemActivate->iItem, 4);
 		dlg.C5 = listCtrl.GetItemText(pNMItemActivate->iItem, 5);
 		dlg.C6 = listCtrl.GetItemText(pNMItemActivate->iItem, 6);
-			
+		//dlg.ConfigureWindow
 		//string str = CT2A(strItemText); //convert to str
 		
 		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();

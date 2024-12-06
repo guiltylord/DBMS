@@ -67,8 +67,7 @@ int CTreeTables::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	lpCreateStruct->style |= TVS_HASLINES
 		| TVS_HASBUTTONS
 		| TVS_LINESATROOT
-		| TVS_SHOWSELALWAYS
-		| TVS_CHECKBOXES;
+		| TVS_SHOWSELALWAYS;
 	if (CTreeView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 

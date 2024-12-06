@@ -135,10 +135,8 @@ void EditDB::ConfigureWindow()
 	CRect rc;
 	GetClientRect(&rc);
 	
-	int szX = 900;
-	int szY = 200;
-
-	MoveWindow((width-szX)/2, (height-szY)/2, szX, szY);
+	int szWndX;
+	int szWndY;
 
 	int x1 = 10;
 	int y1 = 30;
@@ -149,7 +147,12 @@ void EditDB::ConfigureWindow()
 	/*auto p = POINT();
 	p.x = 10;
 	p.y = 10;*/
-	if(currTable == "clients") {
+	if(currTable == "Clients") {
+		szWndX = 900;
+		szWndY = 200;
+
+		MoveWindow((width - szWndX) / 2, (height - szWndY) / 2, szWndX, szWndY);
+
 		e_C1.MoveWindow(x1, y1, 100, 20);
 		e_C2.MoveWindow(x1+=150, y1, 100, 20);
 		e_C3.MoveWindow(x1+=150, y1, 100, 20);
@@ -167,8 +170,8 @@ void EditDB::ConfigureWindow()
 		//t_C6.ShowWindow(SW_HIDE);
 		//e_C6.ShowWindow(SW_HIDE);
 
-		btn_Cancel.MoveWindow(szX - 100, 100, 75, 30);
-		btn_OK.MoveWindow(szX - 200, 100, 75, 30);
+		btn_Cancel.MoveWindow(szWndX - 100, 100, 75, 30);
+		btn_OK.MoveWindow(szWndX - 200, 100, 75, 30);
 		
 		t_C1.SetWindowTextW(L"Firstname");
 		t_C2.SetWindowTextW(L"Lastname");
@@ -184,6 +187,90 @@ void EditDB::ConfigureWindow()
 		e_C5.SetWindowTextW(C5);
 		e_C6.SetWindowTextW(C6);
 		
+		//LastNameEdit.MoveWindow(50, 50, 100, 30);
+	}
+
+	if (currTable == "Orders") {
+		szWndX = 850;
+		szWndY = 200;
+		MoveWindow((width - szWndX) / 2, (height - szWndY) / 2, szWndX, szWndY);
+
+		e_C1.MoveWindow(x1, y1, 100, 20);
+		e_C2.MoveWindow(x1 += 150, y1, 100, 20);
+		e_C3.MoveWindow(x1 += 150, y1, 100, 20);
+		e_C4.MoveWindow(x1 += 150, y1, 100, 20);
+		e_C5.MoveWindow(x1 += 150, y1, 200, 20);
+		//e_C6.MoveWindow(x1 += 150, y1, 100, 20);
+
+		t_C1.MoveWindow(x2, y2, 100, 15);
+		t_C2.MoveWindow(x2 += 150, y2, 100, 15);
+		t_C3.MoveWindow(x2 += 150, y2, 100, 20);
+		t_C4.MoveWindow(x2 += 150, y2, 100, 20);
+		t_C5.MoveWindow(x2 += 150, y2, 100, 20);
+		//t_C6.MoveWindow(x2 += 150, y2, 100, 20);
+
+		t_C6.ShowWindow(SW_HIDE);
+		e_C6.ShowWindow(SW_HIDE);
+
+		btn_Cancel.MoveWindow(szWndX - 100, 100, 75, 30);
+		btn_OK.MoveWindow(szWndX - 200, 100, 75, 30);
+
+		t_C1.SetWindowTextW(L"Date");
+		t_C2.SetWindowTextW(L"Peoples");
+		t_C3.SetWindowTextW(L"Total price");
+		t_C4.SetWindowTextW(L"Client lastname");
+		t_C5.SetWindowTextW(L"Title of tour");
+		//t_C6.SetWindowTextW(L"PassportNumber");
+
+		e_C1.SetWindowTextW(C1);
+		e_C2.SetWindowTextW(C2);
+		e_C3.SetWindowTextW(C3);
+		e_C4.SetWindowTextW(C4);
+		e_C5.SetWindowTextW(C5);
+		//e_C6.SetWindowTextW(C6);
+
+		//LastNameEdit.MoveWindow(50, 50, 100, 30);
+	}
+
+	if (currTable == "Tours") {
+		szWndX = 750;
+		szWndY = 200;
+
+		MoveWindow((width - szWndX) / 2, (height - szWndY) / 2, szWndX, szWndY);
+		e_C1.MoveWindow(x1, y1, 100, 20);
+		e_C2.MoveWindow(x1 += 150, y1, 100, 20);
+		e_C3.MoveWindow(x1 += 150, y1, 100, 20);
+		e_C4.MoveWindow(x1 += 150, y1, 100, 20);
+		e_C5.MoveWindow(x1 += 150, y1, 100, 20);
+		//e_C6.MoveWindow(x1 += 150, y1, 100, 20);
+
+		t_C1.MoveWindow(x2, y2, 100, 15);
+		t_C2.MoveWindow(x2 += 150, y2, 100, 15);
+		t_C3.MoveWindow(x2 += 150, y2, 100, 20);
+		t_C4.MoveWindow(x2 += 150, y2, 100, 20);
+		t_C5.MoveWindow(x2 += 150, y2, 100, 20);
+		//t_C6.MoveWindow(x2 += 150, y2, 100, 20);
+
+		t_C6.ShowWindow(SW_HIDE);
+		e_C6.ShowWindow(SW_HIDE);
+
+		btn_Cancel.MoveWindow(szWndX - 100, 100, 75, 30);
+		btn_OK.MoveWindow(szWndX - 200, 100, 75, 30);
+
+		t_C1.SetWindowTextW(L"Title");
+		t_C2.SetWindowTextW(L"Location");
+		t_C3.SetWindowTextW(L"DateStart");
+		t_C4.SetWindowTextW(L"DateFinish");
+		t_C5.SetWindowTextW(L"Price");
+		//t_C6.SetWindowTextW(L"PassportNumber");
+
+		e_C1.SetWindowTextW(C1);
+		e_C2.SetWindowTextW(C2);
+		e_C3.SetWindowTextW(C3);
+		e_C4.SetWindowTextW(C4);
+		e_C5.SetWindowTextW(C5);
+		//e_C6.SetWindowTextW(C6);
+
 		//LastNameEdit.MoveWindow(50, 50, 100, 30);
 	}
 }
