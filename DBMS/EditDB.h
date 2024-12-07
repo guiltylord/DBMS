@@ -19,6 +19,7 @@ public:
 	
 	CString id;
 	int typeAccess;
+	int countFields;
 
 	CString C1;
 	CString C2;
@@ -33,6 +34,8 @@ public:
 	string query;
 
 	CMainFrame* pFrame;
+
+	vector<CString> GetData();
 
 	void ConfigureWindow();
 // Dialog Data

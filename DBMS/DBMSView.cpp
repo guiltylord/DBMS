@@ -68,6 +68,7 @@ void CDBMSView::FillTable()
 	CListCtrl& listCtrl = GetListCtrl();	
 
 	if (pDoc->m_bClients) {
+		
 		listCtrl.InsertColumn(0, _T(""), LVCFMT_LEFT, 35);
 		listCtrl.InsertColumn(1, _T("Firstname"), LVCFMT_LEFT, 100);
 		listCtrl.InsertColumn(2, _T("Lastname"), LVCFMT_LEFT, 100);
@@ -75,7 +76,6 @@ void CDBMSView::FillTable()
 		listCtrl.InsertColumn(4, _T("PhoneNumber"), LVCFMT_LEFT, 150);
 		listCtrl.InsertColumn(5, _T("DateOfBirth"), LVCFMT_LEFT, 150);
 		listCtrl.InsertColumn(6, _T("PassportNumber"), LVCFMT_LEFT, 150);
-
 		countColumns = 7;
 
 		string tableName = "Clients";
@@ -154,7 +154,10 @@ void CDBMSView::GetData(string tableName, CListCtrl& listCtrl)
 
 	for (int rowNumb = 0; rowNumb < data->size(); rowNumb++) {
 		MYSQL_ROW row = (*data)[rowNumb];
-		CString cstrRow = CString(row[0]); //¬Œ“ “”“ «¿œŒÀÕﬂ≈“—ﬂ ¿…ƒ»ÿÕ» 
+		//CString cstrRow = CString(row[0]); //¬Œ“ “”“ «¿œŒÀÕﬂ≈“—ﬂ ¿…ƒ»ÿÕ» 
+		listCtrl.SetItemData(rowNumb, 777);
+		CString cstrRow;
+		cstrRow.Format(_T("%d"), rowNumb + 1);
 		listCtrl.InsertItem(rowNumb, cstrRow);
 		for (int columnNumb = 1; columnNumb < mysql_num_fields(pFrame->res); columnNumb++) {
 			cstrRow = CString(row[columnNumb]);
@@ -162,6 +165,8 @@ void CDBMSView::GetData(string tableName, CListCtrl& listCtrl)
 			listCtrl.SetItemText(rowNumb, columnNumb, cstrRow);
 		}
 	}
+	auto t = listCtrl.GetItemData(1);
+
 }
 
 void CDBMSView::OnDraw(CDC* pDC)
@@ -227,10 +232,11 @@ void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 	if (pNMItemActivate->iItem != -1)
 	{
+		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
 		EditDB dlg;
 
-		CString strItemText = listCtrl.GetItemText(pNMItemActivate->iItem, 0);
-		dlg.id = strItemText;
+		//CString strItemText = listCtrl.GetItemText(pNMItemActivate->iItem, 0);
 
 		dlg.C1 = listCtrl.GetItemText(pNMItemActivate->iItem, 1);
 		dlg.C2 = listCtrl.GetItemText(pNMItemActivate->iItem, 2);
@@ -238,8 +244,11 @@ void CDBMSView::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 		dlg.C4 = listCtrl.GetItemText(pNMItemActivate->iItem, 4);
 		dlg.C5 = listCtrl.GetItemText(pNMItemActivate->iItem, 5);
 		dlg.C6 = listCtrl.GetItemText(pNMItemActivate->iItem, 6);
-		
-		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+
+		const vector<CString>& vecData = dlg.GetData();
+
+		dlg.id = pFrame->GetId(vecData, currTable);
 
 		dlg.currTable = currTable;
 		dlg.pFrame = pFrame;

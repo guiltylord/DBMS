@@ -11,6 +11,8 @@
 
 #include "mysql.h"
 
+#include <string>
+#include <sstream>
 
 #include "MainFrm.h"
 
@@ -177,4 +179,47 @@ vector<MYSQL_ROW>* CMainFrame::GetData()
 	}
 
 	return data;
+}
+
+CString CMainFrame::GetId(const vector<CString>& vecData, string currTable)
+{
+	std::ostringstream oss;
+	string query;
+	if (currTable == "Clients") {
+		oss << "SELECT Id FROM clients WHERE Firstname = '"
+			<< CT2A(vecData[0])
+			<< "' AND Lastname = '" << CT2A(vecData[1])
+			<< "' AND Email = '" << CT2A(vecData[2])
+			<< "' AND PhoneNumber = '" << CT2A(vecData[3])
+			<< "' AND DateOfBirth = '" << CT2A(vecData[4])
+			<< "' AND PassportNumber = '" << CT2A(vecData[5]) << "'";
+	}
+
+	if (currTable == "Orders") {
+		oss << "SELECT Id FROM orders WHERE Date = '"
+			<< CT2A(vecData[0])
+			<< "' AND Peoples = " << CT2A(vecData[1])
+			<< " AND Price = " << CT2A(vecData[2])
+			<< " AND ClientId = (SELECT Id FROM clients WHERE Lastname = '" << CT2A(vecData[3]) << "')"
+			<< " AND TourId = (SELECT Id FROM tours WHERE Title = '" << CT2A(vecData[4]) << "')";
+	}
+
+	if (currTable == "Tours") {
+		oss << "SELECT Id FROM tours WHERE Title = '"
+			<< CT2A(vecData[0])
+			<< "' AND Location = '" << CT2A(vecData[1])
+			<< "' AND DateStart = '" << CT2A(vecData[2])
+			<< "' AND DateFinish = '" << CT2A(vecData[3])
+			<< "' AND Price = " << CT2A(vecData[4]);
+	}
+
+	query = oss.str();
+
+	SendQuery(query);
+	auto data = GetData();
+
+	MYSQL_ROW row = (*data)[0];
+	CString id = CString(row[0]);
+
+	return id;
 }

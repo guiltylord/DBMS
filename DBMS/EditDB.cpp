@@ -165,6 +165,19 @@ void EditDB::OnBnClickedOk()
 	CDialog::OnOK();
 }
 
+vector<CString> EditDB::GetData()
+{
+	vector<CString> data;/*
+	for(int i = countFields; i < countFields; i++)*/
+	data.push_back(C1);
+	data.push_back(C2);
+	data.push_back(C3);
+	data.push_back(C4);
+	data.push_back(C5);
+	data.push_back(C6);
+	return data;
+}
+
 void EditDB::ConfigureWindow()
 {
 	auto width = GetSystemMetrics(SM_CXSCREEN);
@@ -182,6 +195,8 @@ void EditDB::ConfigureWindow()
 	int x2 = x1+1;
 	int y2 = 10;
 	if(currTable == "Clients") {
+		countFields = 6;
+
 		szWndX = 900;
 		szWndY = 200;
 
@@ -221,6 +236,8 @@ void EditDB::ConfigureWindow()
 	}
 
 	if (currTable == "Orders") {
+		countFields = 5;
+
 		szWndX = 850;
 		szWndY = 200;
 		MoveWindow((width - szWndX) / 2, (height - szWndY) / 2, szWndX, szWndY);
@@ -257,6 +274,8 @@ void EditDB::ConfigureWindow()
 	}
 
 	if (currTable == "Tours") {
+		countFields = 5;
+
 		szWndX = 750;
 		szWndY = 200;
 

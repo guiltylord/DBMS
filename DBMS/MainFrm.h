@@ -28,6 +28,7 @@ public:
 	bool SendQuery(string query);
 	void SelectAllFromTable(string table);
 	vector<MYSQL_ROW>* GetData();
+	CString GetId(const vector<CString>& vecData, string currTable);
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
